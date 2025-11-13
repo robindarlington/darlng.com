@@ -1,0 +1,83 @@
+([
+    {
+        "MIGX_id": 8,
+        "caption": "Lecteurs Audio",
+        "print_before_tabs": "0",
+        "fields": [
+            {
+                "MIGX_id": 24,
+                "field": "nom",
+                "caption": "Nom du lecteur",
+                "description": "",
+                "description_is_code": "0",
+                "inputTV": "",
+                "inputTVtype": "",
+                "validation": "",
+                "configs": "",
+                "restrictive_condition": "",
+                "display": "",
+                "sourceFrom": "config",
+                "sources": "",
+                "inputOptionValues": "",
+                "default": "",
+                "useDefaultIfEmpty": "0",
+                "pos": 1
+            },
+
+            {
+                "MIGX_id": 32,
+                "field": "embedcode",
+                "caption": "Code d'intégration à copier sur soundcloud",
+                "description": "Copier coller le code d'intégration",
+                "description_is_code": "0",
+                "inputTV": "",
+                "inputTVtype": "textarea",
+                "validation": "",
+                "configs": "",
+                "restrictive_condition": "",
+                "display": "",
+                "sourceFrom": "config",
+                "sources": "",
+                "inputOptionValues": "",
+                "default": "",
+                "useDefaultIfEmpty": "0",
+                "pos": 1
+            }
+        ],
+        "pos": 1
+    }
+],
+[
+    {
+        "MIGX_id": "1",
+        "header": "Nom",
+        "dataIndex": "nom",
+        "width": "",
+        "sortable": "true",
+        "show_in_grid": "1",
+        "customrenderer": "",
+        "renderer": "",
+        "clickaction": "",
+        "selectorconfig": "",
+        "renderchunktpl": "",
+        "renderoptions": "",
+        "editor": "this.textEditor"
+    },
+    {
+        "MIGX_id": "1",
+        "header": "Code d'intégration soundcloud",
+        "dataIndex": "embedcode",
+        "width": "",
+        "sortable": "true",
+        "show_in_grid": "1",
+        "customrenderer": "",
+        "renderer": "",
+        "clickaction": "",
+        "selectorconfig": "",
+        "renderchunktpl": "",
+        "renderoptions": "",
+        "editor": "this.textEditor"
+    }
+]
+
+,

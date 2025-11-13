@@ -1,0 +1,32 @@
+[
+    {
+        "MIGX_id": "1",
+        "header": "Nom",
+        "dataIndex": "nom",
+        "width": "",
+        "sortable": "true",
+        "show_in_grid": "1",
+        "customrenderer": "",
+        "renderer": "",
+        "clickaction": "",
+        "selectorconfig": "",
+        "renderchunktpl": "",
+        "renderoptions": "",
+        "editor": "this.textEditor"
+    },
+    {
+        "MIGX_id": "1",
+        "header": "URL Youtube Vidméo ou DailyMotion",
+        "dataIndex": "url",
+        "width": "",
+        "sortable": "true",
+        "show_in_grid": "1",
+        "customrenderer": "",
+        "renderer": "",
+        "clickaction": "",
+        "selectorconfig": "",
+        "renderchunktpl": "",
+        "renderoptions": "",
+        "editor": "this.textEditor"
+    }
+]

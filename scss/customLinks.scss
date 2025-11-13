@@ -1,0 +1,20 @@
+//change link colors for special contexts
+@mixin customLinks($link, $visited, $hover, $active) {
+    & {
+        color: $link;
+        &:visited {
+            color: $visited;
+        }
+        &:hover {
+            color: $hover;
+        }
+        &:active, &:focus {
+            color: $active;
+        }
+    }
+}
+
+
+.bg-secondary a{
+  @include customLinks($secondaryLink,$secondaryLinkVisited,$secondaryLinkHover,$secondaryLinkActive);
+}
