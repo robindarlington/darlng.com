@@ -79,32 +79,32 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | TBD | Pending |
-| INFRA-02 | TBD | Pending |
-| INFRA-03 | TBD | Pending |
-| INFRA-04 | TBD | Pending |
-| BRAND-01 | TBD | Pending |
-| BRAND-02 | TBD | Pending |
-| BRAND-03 | TBD | Pending |
-| BRAND-04 | TBD | Pending |
-| HERO-01 | TBD | Pending |
-| HERO-02 | TBD | Pending |
-| MUSIC-01 | TBD | Pending |
-| MUSIC-02 | TBD | Pending |
-| LISTEN-01 | TBD | Pending |
-| FAN-01 | TBD | Pending |
-| FAN-02 | TBD | Pending |
-| FAN-03 | TBD | Pending |
-| SEO-01 | TBD | Pending |
-| SEO-02 | TBD | Pending |
-| PERF-01 | TBD | Pending |
-| PERF-02 | TBD | Pending |
+| INFRA-01 | Phase 1 | Pending |
+| INFRA-02 | Phase 1 | Pending |
+| INFRA-03 | Phase 1 | Pending |
+| INFRA-04 | Phase 1 | Pending |
+| BRAND-01 | Phase 2 | Pending |
+| BRAND-02 | Phase 2 | Pending |
+| BRAND-03 | Phase 2 | Pending |
+| BRAND-04 | Phase 2 | Pending |
+| HERO-01 | Phase 3 | Pending |
+| HERO-02 | Phase 3 | Pending |
+| MUSIC-01 | Phase 3 | Pending |
+| MUSIC-02 | Phase 3 | Pending |
+| LISTEN-01 | Phase 3 | Pending |
+| FAN-01 | Phase 4 | Pending |
+| FAN-02 | Phase 4 | Pending |
+| FAN-03 | Phase 3 | Pending |
+| SEO-01 | Phase 5 | Pending |
+| SEO-02 | Phase 5 | Pending |
+| PERF-01 | Phase 5 | Pending |
+| PERF-02 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 20 total
-- Mapped to phases: 0 (set during roadmap)
-- Unmapped: 20 ⚠️ (roadmapper will resolve)
+- Mapped to phases: 20 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-26*
-*Last updated: 2026-06-26 after initial definition*
+*Last updated: 2026-06-26 after roadmap creation*
