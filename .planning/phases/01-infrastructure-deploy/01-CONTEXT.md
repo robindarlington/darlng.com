@@ -2,6 +2,21 @@
 
 **Gathered:** 2026-07-07
 **Status:** Ready for planning
+**AMENDED:** 2026-08-04 — Scope revision (see below). Overrides conflicting decisions.
+
+<scope_revision>
+## Scope Revision (2026-08-04, agreed with user — OVERRIDES decisions below where they conflict)
+
+**LOCAL-ONLY BUILD.** The user will personally handle all live infrastructure after approving the local build. See `.planning/CONTENT.md` for the canonical content inventory and full revised-scope rules.
+
+What this phase NOW delivers (code artifacts only, all local):
+- Astro 5 scaffold in `website/` per INFRA-01 (pinned versions, mirror sibling site config) — `npm run build` produces clean `dist/`
+- Multi-stage `website/Dockerfile` + `website/nginx.conf` per D-07/D-08 (404 handling, cache headers) — build the Docker image locally IF Docker is available; otherwise validate nginx.conf syntax and dist/ contents
+- Legacy root files moved into `legacy/` per D-12
+- `website/DEPLOY.md` runbook covering everything the user does themselves: Coolify app creation (Base Directory `website/`, Dockerfile build pack), domain + TLS via Traefik/Let's Encrypt, www→apex + HTTP→HTTPS redirects (D-13/D-14/D-15), Listmonk+Postgres deploy at mail.darlng.com, Resend SMTP relay on 587 (D-03), SPF/DKIM/DMARC at LWS, fan list creation with double opt-in, and where to paste `PUBLIC_LISTMONK_URL` / `PUBLIC_LISTMONK_LIST_UUID` env vars
+
+DEFERRED to user's deploy step (do NOT attempt): D-01..D-06 live Listmonk/Resend/DNS work, D-10 Coolify app wiring, D-15 cutover, and roadmap success criteria 2–5 (live domain checks). Local verification instead: clean build, dist/ serves correctly via local preview, nginx.conf encodes the required cache-header/404 behavior.
+</scope_revision>
 
 <domain>
 ## Phase Boundary
