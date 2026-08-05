@@ -469,7 +469,7 @@ Source: synthesized from D-01 through D-15 in `01-CONTEXT.md`, `[CITED: coolify.
 | A3 | Coolify's built-in "Direction" domain-redirect setting is available and sufficient in the Coolify version the user is running | Don't Hand-Roll table, Pitfall 3 | If the user's Coolify version lacks this UI setting, DEPLOY.md's fallback (manual Traefik `redirectregex` labels, documented in the Alternatives Considered table) covers it — not a hard blocker, just more manual work for the user |
 | A4 | The Listmonk Coolify one-click template (not a custom compose import) avoids the known `#2691` private-repo bug | Common Pitfalls Pitfall 4 | If the one-click template itself has other undiscovered issues, the user will hit them live during Phase 1's deferred deploy step, outside this phase's local-verification scope — user has full context to debug interactively at that point |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Does the current Coolify version (as installed on the user's Hetzner box) expose the "Direction" redirect setting in its UI, or only via raw Traefik labels?**
    - What we know: Coolify's official docs describe this built-in setting as the standard path `[CITED: coolify.io/docs/knowledge-base/proxy/traefik/redirects]`.
