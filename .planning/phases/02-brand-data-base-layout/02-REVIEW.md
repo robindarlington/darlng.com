@@ -20,6 +20,10 @@ findings:
   info: 5
   total: 9
 status: issues_found
+fixed_at: 2026-08-06T23:52:00Z
+fixed: 8
+deferred: 1
+fix_status: partial_fixed_rest_deferred
 ---
 
 # Phase 02-brand-data-base-layout: Code Review Report
@@ -29,6 +33,25 @@ status: issues_found
 **Files Reviewed:** 10
 **Status:** issues_found
 
+## Fix Pass (2026-08-06)
+
+All 4 Warning findings (WR-01 through WR-04) and 4 of 5 Info findings (IN-01 through IN-04) were fixed and committed atomically, one commit per finding:
+
+| Finding | Commit | Summary |
+|---------|--------|---------|
+| WR-01 | `8e01286` | Cover-art alt text now derived from `latest.title` instead of hardcoded "Eseriani" |
+| WR-04 | `f58ede5` | Added `latestRelease` export in `releases.ts` with an explicit build-time invariant check, replacing the `!` non-null assertion in `index.astro` |
+| WR-02 | `dc60a1c` | Extracted the duplicated `socialIcons` map into `src/data/social-icons.ts`, imported by both `Header.astro` and `Footer.astro` |
+| WR-03 | `94c3913` | Added a skip-to-content link in `Layout.astro` targeting a new `#main` landmark; verified visually hidden until focus, then positioned on-screen with no layout overflow at 375px (via `agent-browser`) |
+| IN-01 | `65d7a13` | Removed the unused `--radius-pill` token (confirmed zero references beyond its own declaration; every pill usage already uses `rounded-full`, matching the button contract's own written guidance) |
+| IN-02 | `17a2034` | Differentiated header/footer nav `aria-label`s to `"Follow DARLNG (header)"` / `"Follow DARLNG (footer)"` |
+| IN-03 | `11056ae` | Dropped the contradictory `role="img"` on `BrandIcon.astro`'s `<svg>`, kept `aria-hidden="true"`, added `focusable="false"` |
+| IN-04 | `0f05db0` | Footer copyright year now computed via `new Date().getFullYear()` in frontmatter; renders identically to the locked UI-SPEC copy for the current year (2026) |
+
+**IN-05 (no favicon) was intentionally NOT fixed this pass — deferred to Phase 5 (SEO & Launch Polish).** See the finding below for details; it remains open and untouched in the codebase.
+
+**Verification after all fixes:** `npm run build` and `npm run check` (which runs `astro check` + `check-contrast.mjs`) both pass with 0 errors/warnings/hints and all 9 WCAG contrast pairs still PASS. A quick `agent-browser` pass at 375px confirmed the skip link is `sr-only` by default, becomes visible/positioned (`top: 8px; left: 8px`, ~144×40px) on focus, and introduces no horizontal scroll/layout overflow.
+
 ## Summary
 
 Reviewed the brand token system, typed release catalog, base layout, and the two nav components against `02-UI-SPEC.md`. `npx astro check` and `npm run build` both pass cleanly, `node scripts/check-contrast.mjs` correctly re-derives all 9 documented WCAG contrast ratios, and the color/type/spacing tokens verified against the UI-SPEC line up exactly (hex values, weights, sizes, tap-target math, `h-18`/`min-h-11` arithmetic all check out). No security issues found — `BrandIcon.astro` renders `icon.path` as an escaped SVG attribute (not `set:html`), and no secrets, `eval`, or injection sinks exist in this file set.
@@ -37,7 +60,7 @@ The issues found are all maintainability/robustness gaps rather than functional 
 
 ## Warnings
 
-### WR-01: Cover-art alt text is hardcoded, not derived from the data it's rendering
+### WR-01: Cover-art alt text is hardcoded, not derived from the data it's rendering — RESOLVED (8e01286)
 
 **File:** `website/src/pages/index.astro:22-29`
 **Issue:** The `<Picture>` element sources its image dynamically from `latest.cover` (`releases.find(r => r.isLatest)`), but its `alt` attribute is a hardcoded literal: `alt="DARLNG — Eseriani cover art"`. Three lines later, the caption paragraph on line 40 correctly derives the same information dynamically: `` `Latest release: {latest.title} ({latest.year}) — {latest.artistLine}` ``. The moment `isLatest` moves to a different release in `releases.ts` (which the code is explicitly designed to support), the rendered image will change but the accessible alt text will keep announcing "Eseriani" — a silent, screen-reader-only regression with no build-time signal.
@@ -46,7 +69,7 @@ The issues found are all maintainability/robustness gaps rather than functional 
 alt={`DARLNG — ${latest.title} cover art`}
 ```
 
-### WR-02: `socialIcons` icon map is duplicated verbatim in Header and Footer
+### WR-02: `socialIcons` icon map is duplicated verbatim in Header and Footer — RESOLVED (dc60a1c)
 
 **File:** `website/src/components/Header.astro:1-13`, `website/src/components/Footer.astro:1-13`
 **Issue:** Both components import the same five `simple-icons` exports and build an identical `Record<SocialPlatform, SimpleIcon>` literal. There is no single source of truth — if a sixth social platform is ever added to `socials` in `releases.ts`, it's easy to update one file's map and forget the other, producing a runtime `undefined` passed to `<BrandIcon icon={...}>` in whichever file was missed (Astro/Preact will render a broken `<path d={undefined} />`).
@@ -66,7 +89,7 @@ export const socialIcons: Record<SocialPlatform, SimpleIcon> = {
 };
 ```
 
-### WR-03: No skip-to-content link; keyboard/screen-reader users must tab through the sticky header on every page
+### WR-03: No skip-to-content link; keyboard/screen-reader users must tab through the sticky header on every page — RESOLVED (94c3913)
 
 **File:** `website/src/layouts/Layout.astro:29-35`
 **Issue:** `<Header />` (with its `sticky top-0 z-50` 5-icon nav) renders before `<main>` on every page, and there is no "Skip to content" link. Keyboard and screen-reader users must tab through all 5 social icons before reaching page content, on every single page load. This is the exact case WCAG 2.4.1 "Bypass Blocks" (Level A) exists to cover, and the review's explicit focus this phase includes a11y/focus states.
@@ -84,7 +107,7 @@ export const socialIcons: Record<SocialPlatform, SimpleIcon> = {
 </body>
 ```
 
-### WR-04: `isLatest` uniqueness is an unenforced runtime invariant backed by a non-null assertion
+### WR-04: `isLatest` uniqueness is an unenforced runtime invariant backed by a non-null assertion — RESOLVED (f58ede5)
 
 **File:** `website/src/data/releases.ts:30-39` (interface), `website/src/pages/index.astro:6`
 **Issue:** `index.astro` does `releases.find((r) => r.isLatest)!` — the `!` tells TypeScript to trust that exactly one release has `isLatest: true`. Nothing in the `Release` type or in `releases.ts` enforces "exactly one." Today the data is correct (only `eseriani` is `true`), but if a future edit adds a new release and forgets to flip the old one's `isLatest` to `false` (or flips none), `find()` either silently returns the wrong (stale) release or, if all are `false`, returns `undefined` and the `!` assertion produces a hard crash with an unhelpful "Cannot read properties of undefined" build error rather than a clear message pointing at the actual problem.
@@ -96,31 +119,31 @@ if (!latest) throw new Error('releases.ts: exactly one release must have isLates
 
 ## Info
 
-### IN-01: `--radius-pill` custom token is defined but never used
+### IN-01: `--radius-pill` custom token is defined but never used — RESOLVED (65d7a13)
 
 **File:** `website/src/styles/global.css:25-26`
 **Issue:** `--radius-pill: 9999px;` is declared in `@theme` specifically so pill shapes stay on-token per the UI-SPEC's button/icon contract, but every pill usage in the codebase (`Header.astro:32`, `Footer.astro:32`, `404.astro:11`) uses Tailwind's built-in `rounded-full` utility instead of a `rounded-pill` utility that would reference the custom token. The values happen to be numerically identical (`9999px`), so there's no visual bug today, but the token is dead code and the stated "single swappable token" architecture for pill radius isn't actually wired up.
 **Fix:** Either use `rounded-pill` consistently (Tailwind 4 auto-generates `rounded-pill` from a `--radius-pill` theme key) or remove the unused token and document that `rounded-full` is the intentional choice.
 
-### IN-02: Header and footer `<nav>` landmarks share the identical accessible name
+### IN-02: Header and footer `<nav>` landmarks share the identical accessible name — RESOLVED (17a2034)
 
 **File:** `website/src/components/Header.astro:24`, `website/src/components/Footer.astro:24`
 **Issue:** Both `<nav aria-label="Follow DARLNG">` elements exist on the same rendered page with the exact same accessible name. Screen-reader users browsing by landmarks (e.g. VoiceOver/NVDA landmark rotor) will see two entries both labeled "navigation, Follow DARLNG" with no way to tell them apart before entering each.
 **Fix:** Differentiate the labels, e.g. `aria-label="Follow DARLNG (header)"` / `aria-label="Follow DARLNG (footer)"`, or `"Follow DARLNG — top"` / `"Follow DARLNG — footer"`.
 
-### IN-03: `role="img"` combined with `aria-hidden="true"` is contradictory
+### IN-03: `role="img"` combined with `aria-hidden="true"` is contradictory — RESOLVED (11056ae)
 
 **File:** `website/src/components/BrandIcon.astro:13`
 **Issue:** The SVG carries both `role="img"` (which asserts an accessible image needing a name) and `aria-hidden="true"` (which removes it from the accessibility tree entirely). Since the parent `<a aria-label="...">` already supplies the accessible name in both call sites, `role="img"` here is inert and misleading to a future reader who might assume it needs an accessible name of its own.
 **Fix:** Drop the now-redundant role: `<svg viewBox="0 0 24 24" fill="currentColor" class={className} aria-hidden="true">`.
 
-### IN-04: Footer copyright year is a hardcoded literal
+### IN-04: Footer copyright year is a hardcoded literal — RESOLVED (0f05db0)
 
 **File:** `website/src/components/Footer.astro:39`
 **Issue:** `© 2026 DARLNG. All rights reserved.` is a fixed string. The UI-SPEC explicitly locks this exact copy for this phase, so this is not a defect against the current contract, but as static-site literal text it will read as stale in future years unless someone remembers to hand-edit it on every rebuild.
 **Fix:** Not required to change now given the locked copy contract; if a future phase revisits footer copy, consider `© {new Date().getFullYear()} DARLNG. All rights reserved.` (build-time year).
 
-### IN-05: No favicon configured
+### IN-05: No favicon configured — DEFERRED to Phase 5 (SEO & Launch Polish)
 
 **File:** `website/src/layouts/Layout.astro:19-28`
 **Issue:** There is no `<link rel="icon">` in `<head>` and no `public/` directory with a favicon asset, so every page load triggers a browser request for `/favicon.ico` that 404s. Likely deferred to a later phase, but flagging since `<head>` is fully in this phase's scope.
