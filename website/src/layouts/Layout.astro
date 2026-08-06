@@ -1,0 +1,36 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import unboundedWoff2 from '@fontsource-variable/unbounded/files/unbounded-latin-wght-normal.woff2?url';
+import manropeWoff2 from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'DARLNG',
+	description = 'DARLNG is an independent Afro / RnB / Pop artist. Listen to the latest release and follow DARLNG everywhere.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="preload" href={unboundedWoff2} as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href={manropeWoff2} as="font" type="font/woff2" crossorigin />
+	</head>
+	<body>
+		<Header />
+		<main class="mx-auto w-full max-w-7xl px-4 md:px-6 xl:px-8">
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -1,1 +1,43 @@
 @import "tailwindcss";
+@import "@fontsource-variable/unbounded";
+@import "@fontsource-variable/manrope";
+
+@theme {
+  /* Surfaces — 60/30 split */
+  --color-bg: #0A0908; /* 60% — page background, dominant surface */
+  --color-surface: #171310; /* 30% — header, footer, cards, section bands */
+
+  /* Text */
+  --color-text: #F5F1EA; /* primary body + heading text (warm off-white) */
+  --color-text-muted: #8C8378; /* secondary/meta text, captions, copyright line */
+
+  /* Accent — 10%, ONE swappable jewel token */
+  --color-accent: #2DD9C5; /* jewel turquoise, derived from Eseriani beadwork */
+
+  /* Semantic (second color, non-accent) */
+  --color-error: #F0605E; /* form validation failures only (Phase 4) */
+
+  /* Fonts */
+  --font-display: 'Unbounded Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius */
+  --radius-card: 0.5rem; /* 8px — cards, cover art, inputs */
+  --radius-pill: 9999px; /* buttons, icon circles */
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}

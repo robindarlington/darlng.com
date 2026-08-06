@@ -1,20 +1,53 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
+import { Picture } from 'astro:assets';
+import { releases } from '../data/releases';
+
+const latest = releases.find((r) => r.isLatest)!;
+
+const swatches = [
+	{ name: 'bg', class: 'bg-bg' },
+	{ name: 'surface', class: 'bg-surface' },
+	{ name: 'text', class: 'bg-text' },
+	{ name: 'text-muted', class: 'bg-text-muted' },
+	{ name: 'accent', class: 'bg-accent' },
+];
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>DARLNG</title>
-		<meta
-			name="description"
-			content="DARLNG is an independent Afro / RnB / Pop artist. Listen to the latest release and follow DARLNG everywhere."
+<Layout
+	title="DARLNG — Afro / RnB / Pop"
+	description="DARLNG is an independent Afro / RnB / Pop artist. New music when it is ready, on nobody's schedule but his own."
+>
+	<div class="py-12 md:py-16">
+		<Picture
+			src={latest.cover}
+			formats={['avif', 'webp']}
+			widths={[384, 768, 1152]}
+			sizes="(min-width: 640px) 384px, 100vw"
+			alt="DARLNG — Eseriani cover art"
+			class="w-full max-w-sm rounded-card"
 		/>
-	</head>
-	<body>
-		<h1>DARLNG</h1>
-		<p>An independent Afro / RnB / Pop artist. The full release hub lands here soon.</p>
-	</body>
-</html>
+	</div>
+
+	<section class="py-12 md:py-16">
+		<h1 class="text-[40px] leading-[1.05] font-display font-extrabold">Independent. No schedule.</h1>
+		<h2 class="text-2xl leading-tight font-display font-bold mt-4">Music when it is ready.</h2>
+		<p class="text-base leading-normal max-w-prose mt-4">
+			DARLNG is a fully independent Afro / RnB / Pop artist — no label, no calendar, no
+			committee. Every collaboration and every creative direction is his own call, and a
+			release goes out the moment it's ready, not before.
+		</p>
+		<p class="text-sm text-text-muted mt-2">Latest release: {latest.title} ({latest.year}) — {latest.artistLine}</p>
+
+		<div class="flex flex-wrap gap-6 mt-8">
+			{
+				swatches.map((swatch) => (
+					<div class="flex flex-col items-center gap-2">
+						<div class={`size-12 rounded-card border border-white/10 ${swatch.class}`} />
+						<span class="text-sm">{swatch.name}</span>
+					</div>
+				))
+			}
+		</div>
+	</section>
+</Layout>
