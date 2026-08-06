@@ -436,7 +436,7 @@ Social URLs above are copied verbatim from `.planning/CONTENT.md`'s Social Profi
 | A2 | `<Picture>` `widths={[384, 768, 1152]}` with `sizes="(min-width: 640px) 384px, 100vw"` is the right srcset shape for the skeleton page's single focal cover image | Pattern 4 | Low-Medium — a planner/executor should confirm against the final `max-w-sm` (384px) container width decision in UI-SPEC; if the container size changes, these numbers should scale with it |
 | A3 | `releases.ts` TypeScript shape (Platform union, Release interface, embed config) proposed below is original design guidance, not sourced from an external authority | (see Open Questions / planner discretion) | Low — this is a design proposal for the planner to adopt or adjust, not a verified external fact; flagging so it isn't mistaken for a documented Astro convention |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Recommended `releases.ts` TypeScript shape (design proposal, not sourced externally)**
    - What we know: CONTEXT.md locks the data model as a plain typed TS file (not content collections), covering 4 releases with per-release platform links, one embed config (Eseriani/YouTube), and a socials export. Phase 3's listen pages need per-platform labels/ordering (per the additional_context brief).
