@@ -1,9 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Picture } from 'astro:assets';
-import { releases } from '../data/releases';
+import { latestRelease } from '../data/releases';
 
-const latest = releases.find((r) => r.isLatest)!;
+const latest = latestRelease;
 
 const swatches = [
 	{ name: 'bg', class: 'bg-bg' },

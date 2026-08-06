@@ -115,6 +115,22 @@ export const releases: Release[] = [
   },
 ];
 
+/**
+ * The single release with `isLatest: true`. Throws a descriptive build-time
+ * error if the invariant ("exactly one release must be marked latest") is
+ * ever violated, instead of silently returning a stale release or crashing
+ * with an unhelpful "Cannot read properties of undefined" error.
+ */
+export const latestRelease: Release = (() => {
+  const matches = releases.filter((release) => release.isLatest);
+  if (matches.length !== 1) {
+    throw new Error(
+      `releases.ts: expected exactly one release with isLatest: true, found ${matches.length}.`
+    );
+  }
+  return matches[0];
+})();
+
 export const socials: SocialLink[] = [
   { platform: 'spotify', url: 'https://open.spotify.com/artist/0uXxSPfLr36OuyGDKiBzV3', label: 'Spotify' },
   { platform: 'instagram', url: 'https://www.instagram.com/darlngmusic', label: 'Instagram' },
