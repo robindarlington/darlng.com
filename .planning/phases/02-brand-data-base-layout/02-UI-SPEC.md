@@ -304,3 +304,5 @@ No component registries are used this phase. Icon "packages" (`lucide-astro`, `s
 - [ ] Dimension 6 Registry Safety: PASS
 
 **Approval:** pending
+
+> **Amendment (2026-08-07, post-UI-audit):** (1) Wordmark size clarified — the intent is 24px; implemented as Tailwind `text-2xl` (the spec's earlier "text-lg = 24px" row conflated the utility name with the target size). (2) Dynamic copyright year (`new Date().getFullYear()` at build time) is AUTHORIZED — it renders the spec's locked string for the current year and self-updates on rebuild.
