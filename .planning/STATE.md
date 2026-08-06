@@ -4,16 +4,16 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 current_phase_name: infrastructure-deploy
-status: executing
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-08-06T20:22:07.449Z"
+status: verifying
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-08-06T20:26:52.634Z"
 last_activity: 2026-08-06
 last_activity_desc: Phase 01 execution started
 progress:
   total_phases: 1
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -29,10 +29,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 Phase: 01 (infrastructure-deploy) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-08-06 — Phase 01 execution started
 
-Progress: [█████░░░░░] 50%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Progress: [█████░░░░░] 50%
 | Plan | Duration | Tasks | Files |
 |------|----------|-------|-------|
 | Phase 01 P01 | 17 min | 3 tasks | 11 files |
+| Phase 01 P02 | 15 min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,8 @@ Recent decisions affecting current work:
 - Pre-roadmap: Listmonk self-hosted for newsletter; CORS at Traefik/nginx proxy layer (not app layer) to avoid duplicate-header rejection
 - Pre-roadmap: Own "listen everywhere" page at `/listen/[slug]` instead of third-party smart link; Spotify Follow Button deprecated — use plain profile link
 - [Phase ?]: Pinned @tailwindcss/vite + tailwindcss to exact 4.1.16 and added npm overrides.vite:^6.4.1 to eliminate a real astro-check type error caused by vite version skew — Caret range on @tailwindcss/vite resolved to 4.3.3 which peer-requires a newer vite than astro's internally bundled vite@6.4.1, producing incompatible Plugin<any> types
+- [Phase ?]: D-12's twelve-item legacy artifact list is authoritative over RESEARCH.md's prose count of ten — All twelve moved by explicit name via git mv to preserve history
+- [Phase ?]: DEPLOY.md documents Coolify's built-in Direction/Force-HTTPS setting as primary, hand-written Traefik labels as fallback only — Standard supported path per RESEARCH.md, avoids known label-authoring bugs
 
 ### Pending Todos
 
@@ -99,6 +102,6 @@ Content that must be gathered before Phase 2 can complete:
 
 ## Session Continuity
 
-Last session: 2026-08-06T20:22:07.442Z
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-08-06T20:26:52.628Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
