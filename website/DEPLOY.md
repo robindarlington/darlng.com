@@ -181,3 +181,16 @@ exist once Coolify, DNS, and Let's Encrypt are actually wired together.
       or by submitting a real email through Listmonk's public subscription
       endpoint) and confirm the confirmation email arrives in the inbox — not the
       spam folder.
+
+## Notes
+
+- **`vite` override in `package.json`:** `package.json` pins `"@tailwindcss/vite": "4.1.16"`
+  exactly (no `^`) and adds `"overrides": { "vite": "^6.4.1" }`. This exists because
+  `@tailwindcss/vite` requires a specific `vite` major/minor to avoid Tailwind's CSS-first
+  `@theme` pipeline silently breaking on a transitive `vite` version mismatch — Astro
+  5.18.2's own dependency tree can otherwise resolve a different `vite` range, which drifts
+  the peer chain and causes `astro check` (and sometimes the dev server) to fail in ways
+  that are hard to diagnose from the error alone. Pinning `@tailwindcss/vite` exactly and
+  forcing `vite` via `overrides` keeps that chain deterministic. Safe to revisit (and
+  potentially loosen) after a deliberate Astro/Tailwind upgrade, not on a routine
+  `npm update`.
