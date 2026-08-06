@@ -2,6 +2,8 @@
 import BrandIcon from './BrandIcon.astro';
 import { socials } from '../data/releases';
 import { socialIcons } from '../data/social-icons';
+
+const copyrightYear = new Date().getFullYear();
 ---
 
 <footer class="bg-surface py-12 md:py-16">
@@ -27,6 +29,6 @@ import { socialIcons } from '../data/social-icons';
 				))
 			}
 		</nav>
-		<p class="text-sm text-text-muted md:text-right">© 2026 DARLNG. All rights reserved.</p>
+		<p class="text-sm text-text-muted md:text-right">© {copyrightYear} DARLNG. All rights reserved.</p>
 	</div>
 </footer>
