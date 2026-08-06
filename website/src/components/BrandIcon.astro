@@ -1,0 +1,15 @@
+---
+// Renders one simple-icons SimpleIcon as inline SVG — zero JS, colour via CSS currentColor.
+import type { SimpleIcon } from 'simple-icons';
+
+interface Props {
+	icon: SimpleIcon;
+	class?: string;
+}
+
+const { icon, class: className } = Astro.props;
+---
+
+<svg viewBox="0 0 24 24" fill="currentColor" class={className} role="img" aria-hidden="true">
+	<path d={icon.path} />
+</svg>

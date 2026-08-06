@@ -1,17 +1,16 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Not Found | DARLNG</title>
-	</head>
-	<body>
-		<h1>404</h1>
-		<p>This page doesn't exist.</p>
-		<a href="/">Back to DARLNG</a>
-	</body>
-</html>
+<Layout title="Not found — DARLNG" description="That page does not exist on darlng.com.">
+	<section class="py-12 md:py-16">
+		<h1 class="font-display font-extrabold text-[40px] leading-[1.05]">404</h1>
+		<p class="text-base text-text-muted max-w-prose">That page does not exist. The music does.</p>
+		<a
+			href="/"
+			class="inline-flex items-center rounded-full border-[1.5px] border-accent text-accent py-3 px-6 transition-colors hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+		>
+			Back to the music
+		</a>
+	</section>
+</Layout>

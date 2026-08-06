@@ -1,4 +1,16 @@
 ---
+import { siSpotify, siInstagram, siFacebook, siYoutube, siTiktok } from 'simple-icons';
+import type { SimpleIcon } from 'simple-icons';
+import BrandIcon from './BrandIcon.astro';
+import { socials, type SocialPlatform } from '../data/releases';
+
+const socialIcons: Record<SocialPlatform, SimpleIcon> = {
+	spotify: siSpotify,
+	instagram: siInstagram,
+	facebook: siFacebook,
+	youtube: siYoutube,
+	tiktok: siTiktok,
+};
 ---
 
 <header class="bg-surface sticky top-0 z-50 border-b border-white/5 h-16 md:h-18">
@@ -9,5 +21,20 @@
 		>
 			DARLNG
 		</a>
+		<nav aria-label="Follow DARLNG" class="flex items-center gap-2 md:gap-4">
+			{
+				socials.map((social) => (
+					<a
+						href={social.url}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={`Follow DARLNG on ${social.label}`}
+						class="social-icon-link flex items-center justify-center min-h-11 min-w-11 rounded-full text-text-muted transition-colors duration-150 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-95"
+					>
+						<BrandIcon icon={socialIcons[social.platform]} class="w-5 h-5" />
+					</a>
+				))
+			}
+		</nav>
 	</div>
 </header>
