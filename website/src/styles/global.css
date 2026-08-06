@@ -23,7 +23,9 @@
 
   /* Radius */
   --radius-card: 0.5rem; /* 8px — cards, cover art, inputs */
-  --radius-pill: 9999px; /* buttons, icon circles */
+  /* Pill shapes intentionally use Tailwind's built-in `rounded-full` utility
+     (see 02-UI-SPEC.md button contract) rather than a custom token — removed
+     unused --radius-pill (was numerically identical to rounded-full, IN-01). */
 }
 
 body {
