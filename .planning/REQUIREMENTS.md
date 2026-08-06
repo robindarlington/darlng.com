@@ -16,10 +16,10 @@ Requirements for initial release. Each maps to roadmap phases. (All P1 table sta
 
 ### Brand & Layout
 
-- [ ] **BRAND-01**: Dark, moody visual identity (deep black base, single jewel/neon accent, cinematic typography) distinct from robindarlington.com
-- [ ] **BRAND-02**: Design tokens (color palette + accent) verified to meet WCAG AA contrast (4.5:1 text, 3:1 large text) before component build
-- [ ] **BRAND-03**: Mobile-first responsive layout — single-column on mobile, grid/flex on desktop
-- [ ] **BRAND-04**: Base layout, fonts (Fontsource), and shared nav/footer with social-follow anchors
+- [x] **BRAND-01**: Dark, moody visual identity (deep black base, single jewel/neon accent, cinematic typography) distinct from robindarlington.com
+- [x] **BRAND-02**: Design tokens (color palette + accent) verified to meet WCAG AA contrast (4.5:1 text, 3:1 large text) before component build
+- [x] **BRAND-03**: Mobile-first responsive layout — single-column on mobile, grid/flex on desktop
+- [x] **BRAND-04**: Base layout, fonts (Fontsource), and shared nav/footer with social-follow anchors
 
 ### Hero & Music
 
@@ -83,10 +83,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Complete |
 | INFRA-04 | Phase 1 | Complete |
-| BRAND-01 | Phase 2 | Pending |
-| BRAND-02 | Phase 2 | Pending |
-| BRAND-03 | Phase 2 | Pending |
-| BRAND-04 | Phase 2 | Pending |
+| BRAND-01 | Phase 2 | Complete |
+| BRAND-02 | Phase 2 | Complete |
+| BRAND-03 | Phase 2 | Complete |
+| BRAND-04 | Phase 2 | Complete |
 | HERO-01 | Phase 3 | Pending |
 | HERO-02 | Phase 3 | Pending |
 | MUSIC-01 | Phase 3 | Pending |

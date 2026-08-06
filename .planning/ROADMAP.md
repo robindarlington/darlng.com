@@ -64,11 +64,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 - Embed iframe src URLs (YouTube for Eseriani; confirm embed sources for Randevu, Brave, Open Wide)
 - Brand font decision (typeface(s) for DARLNG identity — not yet specified in PROJECT.md)
 
-**Plans**: 2 plans
+**Plans**: 1/2 plans executed
 
 Plans:
 
-- [ ] 02-01-PLAN.md — Tracer: design tokens, self-hosted fonts, typed `releases.ts` contract, base Layout/Header/Footer, skeleton page with Sharp-processed cover art, and the WCAG AA `check:contrast` build gate
+- [x] 02-01-PLAN.md — Tracer: design tokens, self-hosted fonts, typed `releases.ts` contract, base Layout/Header/Footer, skeleton page with Sharp-processed cover art, and the WCAG AA `check:contrast` build gate
 - [ ] 02-02-PLAN.md — Full four-release catalog with all 22 platform links, `BrandIcon` + five-platform social-follow rows in header and footer, Layout-wrapped 404, and browser verification at 375/768/1440
 
 **UI hint**: yes
@@ -130,7 +130,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Infrastructure & Deploy | 2/2 | Complete    | 2026-08-06 |
-| 2. Brand, Data & Base Layout | 0/2 | Planned     | - |
+| 2. Brand, Data & Base Layout | 1/2 | In Progress|  |
 | 3. Core Fan Experience | 0/? | Not started | - |
 | 4. Newsletter Fan Capture | 0/? | Not started | - |
 | 5. SEO & Launch Polish | 0/? | Not started | - |
