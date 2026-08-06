@@ -1,0 +1,1 @@
+{"content":"Listmonk SMTP config for Resend relay: host smtp.resend.com, port 587, auth_protocol login, username 'resend', password = Resend API key, tls_type STARTTLS.","source":"web","provider":"websearch","confidence":"MEDIUM","fetched_at":"2026-08-04T07:22:01.652Z","ttl":86400000,"kind":"web"}
