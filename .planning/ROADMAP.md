@@ -13,7 +13,7 @@ A five-phase build for the DARLNG artist release hub at darlng.com. Infrastructu
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Infrastructure & Deploy** - Scaffold Astro project, wire Coolify deploy, confirm darlng.com resolves, and get Listmonk running
+- [x] **Phase 1: Infrastructure & Deploy** - Scaffold Astro project, wire Coolify deploy, confirm darlng.com resolves, and get Listmonk running (completed 2026-08-06)
 - [ ] **Phase 2: Brand, Data & Base Layout** - Establish WCAG-verified dark palette, base layout, and typed releases.ts data model
 - [ ] **Phase 3: Core Fan Experience** - Build hero, discography, listen-everywhere pages, and social follow links
 - [ ] **Phase 4: Newsletter Fan Capture** - Wire NewsletterForm to Listmonk with CORS, ALTCHA, and double opt-in
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure & Deploy | 2/2 | In Progress|  |
+| 1. Infrastructure & Deploy | 2/2 | Complete    | 2026-08-06 |
 | 2. Brand, Data & Base Layout | 0/? | Not started | - |
 | 3. Core Fan Experience | 0/? | Not started | - |
 | 4. Newsletter Fan Capture | 0/? | Not started | - |
