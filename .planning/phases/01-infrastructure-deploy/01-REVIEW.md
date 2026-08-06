@@ -55,6 +55,11 @@ this file is still small and easy to change. Remaining findings are minor hygien
 
 ### WR-01: `.dockerignore` doesn't exclude `.env*`, unlike `.gitignore`
 
+**Resolution:** Fixed — `website/.dockerignore` now excludes `.env`, `.env.*`, and
+`.DS_Store`, bringing it in line with `.gitignore`'s intent. Verified with
+`npm run build` (exit 0) and a full `docker build` + `docker run` + `curl` smoke test.
+See `01-REVIEW-FIX.md`.
+
 **File:** `website/.dockerignore:1-5`
 **Issue:** `.gitignore` explicitly keeps `.env` and `.env.production` out of git (lines
 4-5), but `.dockerignore` has no equivalent entries:
@@ -87,6 +92,15 @@ DEPLOY.md
 ```
 
 ### WR-02: `nginx.conf` sets cache headers but no security headers, despite that being the stated reason for choosing a custom config
+
+**Resolution:** Fixed — `website/nginx.conf` now sets `X-Content-Type-Options`,
+`Referrer-Policy`, `X-Frame-Options`, and `Permissions-Policy` at the `server` level,
+repeated verbatim inside the `location ^~ /_astro/` block (since that block's own
+`add_header Cache-Control` would otherwise replace, not merge with, the inherited
+security headers). Verified via `docker build` + `docker run` + `curl -I` against `/`,
+`/index.html`, a hashed `/_astro/` asset, and a 404 path — all four response classes
+carry the security headers and the pre-existing Cache-Control contract is unchanged.
+See `01-REVIEW-FIX.md`.
 
 **File:** `website/nginx.conf:7`
 **Issue:** `CLAUDE.md`'s own comparison table justifies the Dockerfile+nginx.conf
@@ -125,6 +139,10 @@ satisfy a stricter pod/host security policy later.
 if Coolify's runtime policy tightens.
 
 ### IN-02: `package.json` pins `vite` via `overrides` with no inline rationale
+
+**Resolution:** Fixed — added a "Notes" section to `website/DEPLOY.md` explaining the
+`@tailwindcss/vite` exact-pin + `overrides.vite` rationale, and when it's safe to
+revisit. See `01-REVIEW-FIX.md`.
 
 **File:** `website/package.json:27-29`
 **Issue:**
