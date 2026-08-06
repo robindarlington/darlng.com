@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases. (All P1 table sta
 
 ### Infrastructure & Deploy
 
-- [ ] **INFRA-01**: Astro 5 project scaffolded in `website/` subdirectory, pinned to `astro@^5.18.2` with aligned `@astrojs/mdx@^4.x` + `@astrojs/preact@^4.x` + Tailwind 4, building cleanly to static `dist/`
+- [x] **INFRA-01**: Astro 5 project scaffolded in `website/` subdirectory, pinned to `astro@^5.18.2` with aligned `@astrojs/mdx@^4.x` + `@astrojs/preact@^4.x` + Tailwind 4, building cleanly to static `dist/`
 - [ ] **INFRA-02**: Site deploys to existing Coolify-on-Hetzner setup with Base Directory `website/`, a custom `nginx.conf` (correct 404 handling + cache headers), and serves the static build at darlng.com
 - [ ] **INFRA-03**: Apex/www + HTTPS resolve correctly (Cloudflare SSL "Full (Strict)", www→apex redirect) with no redirect loops
 - [ ] **INFRA-04**: Self-hosted Listmonk instance is reachable and configured (target list created, double opt-in enabled) so the newsletter form has a live backend
@@ -79,7 +79,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | Phase 1 | Pending |
+| INFRA-01 | Phase 1 | Complete |
 | INFRA-02 | Phase 1 | Pending |
 | INFRA-03 | Phase 1 | Pending |
 | INFRA-04 | Phase 1 | Pending |
@@ -101,6 +101,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PERF-02 | Phase 5 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 20 total
 - Mapped to phases: 20 ✓
 - Unmapped: 0

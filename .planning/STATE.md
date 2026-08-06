@@ -2,16 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-07-07T06:44:11.811Z"
-last_activity: 2026-06-26 — Roadmap created; ready to plan Phase 1
+current_phase: 01
+current_phase_name: infrastructure-deploy
+status: executing
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-08-06T20:22:07.449Z"
+last_activity: 2026-08-06
+last_activity_desc: Phase 01 execution started
 progress:
-  total_phases: 5
+  total_phases: 1
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_plans: 2
+  completed_plans: 1
 ---
 
 # Project State
@@ -21,16 +23,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** A fan landing on darlng.com instantly hits the latest release and can play it / save it / follow DARLNG everywhere in one move.
-**Current focus:** Phase 1 — Infrastructure & Deploy
+**Current focus:** Phase 01 — infrastructure-deploy
 
 ## Current Position
 
-Phase: 1 of 5 (Infrastructure & Deploy)
-Plan: 0 of ? in current phase
-Status: Ready to plan
-Last activity: 2026-06-26 — Roadmap created; ready to plan Phase 1
+Phase: 01 (infrastructure-deploy) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-08-06 — Phase 01 execution started
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -52,6 +54,11 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01 P01 | 17 min | 3 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -64,6 +71,7 @@ Recent decisions affecting current work:
 - Pre-roadmap: `src/data/releases.ts` (plain TS file) chosen over MDX content collections for typed release catalog driving hero, discography, and listen pages
 - Pre-roadmap: Listmonk self-hosted for newsletter; CORS at Traefik/nginx proxy layer (not app layer) to avoid duplicate-header rejection
 - Pre-roadmap: Own "listen everywhere" page at `/listen/[slug]` instead of third-party smart link; Spotify Follow Button deprecated — use plain profile link
+- [Phase ?]: Pinned @tailwindcss/vite + tailwindcss to exact 4.1.16 and added npm overrides.vite:^6.4.1 to eliminate a real astro-check type error caused by vite version skew — Caret range on @tailwindcss/vite resolved to 4.3.3 which peer-requires a newer vite than astro's internally bundled vite@6.4.1, producing incompatible Plugin<any> types
 
 ### Pending Todos
 
@@ -91,6 +99,6 @@ Content that must be gathered before Phase 2 can complete:
 
 ## Session Continuity
 
-Last session: 2026-07-07T06:44:11.803Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-infrastructure-deploy/01-CONTEXT.md
+Last session: 2026-08-06T20:22:07.442Z
+Stopped at: Completed 01-01-PLAN.md
+Resume file: None

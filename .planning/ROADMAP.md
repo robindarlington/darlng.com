@@ -7,6 +7,7 @@ A five-phase build for the DARLNG artist release hub at darlng.com. Infrastructu
 ## Phases
 
 **Phase Numbering:**
+
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
@@ -21,11 +22,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Infrastructure & Deploy
+
 **Goal**: The Astro project builds and deploys cleanly to darlng.com via Coolify, with correct TLS/redirects, nginx cache headers, and a live Listmonk instance ready for newsletter wiring.
 **Mode:** mvp
 **Depends on**: Nothing (first phase)
 **Requirements**: INFRA-01, INFRA-02, INFRA-03, INFRA-04
 **Success Criteria** (what must be TRUE):
+
   1. `npm run build` inside `website/` produces a clean `dist/` with an `_astro/` directory and no errors
   2. Visiting `https://darlng.com` serves the new Astro build (not the legacy 2019 placeholder) — confirmed by the absence of the old jQuery/Grunt markup
   3. `curl -I https://www.darlng.com` returns a 301 redirect to `https://darlng.com` with no redirect loop; `curl -I http://darlng.com` returns 301 to HTTPS
@@ -34,21 +37,28 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 **Content inputs needed:** Confirm which subdomain Listmonk runs on (e.g. `mail.darlng.com`); confirm Coolify application name and Base Directory is set to `website/`.
 
-**Plans**: TBD
+**Plans**: 1/2 plans executed
+
+- [x] 01-01-PLAN.md
+- [ ] 01-02-PLAN.md
+
 **UI hint**: yes
 
 ### Phase 2: Brand, Data & Base Layout
+
 **Goal**: A verified dark/moody design token system is in place with all color pairs passing WCAG AA contrast, the base layout renders correctly with Fontsource fonts, and `src/data/releases.ts` contains complete typed data for all four releases including cover art, embed configs, and platform links — ready for every page to consume.
 **Mode:** mvp
 **Depends on**: Phase 1
 **Requirements**: BRAND-01, BRAND-02, BRAND-03, BRAND-04
 **Success Criteria** (what must be TRUE):
+
   1. Every color token pair (body text on background, accent on background, heading on background) measures at least 4.5:1 contrast ratio — verified with a contrast checker, not by eye
   2. A skeleton page at `https://darlng.com` renders the base layout with correct fonts, dark background, and responsive single-column mobile / multi-column desktop behavior
   3. `src/data/releases.ts` contains all four releases (Eseriani 2026, Randevu 2024, Brave 2020, Open Wide 2019) with complete `links[]` arrays and cover art imported as `ImageMetadata` from `src/assets/releases/`
   4. `npm run build` still produces a clean build with Sharp-processed cover art WebP/AVIF output in `dist/`
 
 **Content inputs needed (must be gathered before or during this phase):**
+
 - High-resolution cover art for all four releases → committed to `src/assets/releases/`
 - Final streaming URLs (Spotify, Apple Music, YouTube, Tidal, Amazon Music, Deezer, SoundCloud) for every release
 - Embed iframe src URLs (YouTube for Eseriani; confirm embed sources for Randevu, Brave, Open Wide)
@@ -58,11 +68,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 **UI hint**: yes
 
 ### Phase 3: Core Fan Experience
+
 **Goal**: A fan landing on darlng.com encounters the full cinematic hero for Eseriani with embed player and streaming CTAs, can browse the back-catalog discography, navigate to a per-release listen-everywhere page with branded platform buttons, and follow DARLNG on all social platforms.
 **Mode:** mvp
 **Depends on**: Phase 2
 **Requirements**: HERO-01, HERO-02, MUSIC-01, MUSIC-02, LISTEN-01, FAN-03
 **Success Criteria** (what must be TRUE):
+
   1. The hero on `https://darlng.com` shows the Eseriani cover art full-bleed with title, artist name, and visible streaming CTA buttons for at minimum Spotify, Apple Music, and YouTube — all links open the correct destination
   2. A Spotify/YouTube embed player is present in the hero section and plays Eseriani on click; the page's LCP element is the hero image (not the iframe) as confirmed by PageSpeed Insights
   3. The discography section displays Randevu, Brave, and Open Wide as cards with cover art, title, year, and working outbound streaming links — no embeds for back catalog
@@ -73,11 +85,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 **UI hint**: yes
 
 ### Phase 4: Newsletter Fan Capture
+
 **Goal**: A fan can submit their email on the homepage newsletter section, receive a double opt-in confirmation email from Listmonk, and confirm their subscription — with ALTCHA spam protection active and CORS correctly configured so cross-origin form submission works from the live darlng.com domain.
 **Mode:** mvp
 **Depends on**: Phase 1, Phase 3
 **Requirements**: FAN-01, FAN-02
 **Success Criteria** (what must be TRUE):
+
   1. Submitting a real email in the newsletter form at `https://darlng.com` delivers a confirmation email to that inbox within two minutes — verified from the live deployed domain, not localhost
   2. The form shows distinct success ("Check your inbox to confirm"), error (network/API failure), and already-subscribed states — each visible without refreshing the page
   3. A rapid-fire bot POST to the Listmonk subscription endpoint returns a non-200 response (ALTCHA validation active)
@@ -88,11 +102,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: TBD
 
 ### Phase 5: SEO & Launch Polish
+
 **Goal**: Every page has correct per-page Open Graph and Twitter Card meta with absolute production URLs, the sitemap and robots.txt are generated and discoverable, and the site passes Core Web Vitals targets (LCP <2.5s, CLS <0.1, TBT <200ms) on the live domain.
 **Mode:** mvp
 **Depends on**: Phase 3, Phase 4
 **Requirements**: SEO-01, SEO-02, PERF-01, PERF-02
 **Success Criteria** (what must be TRUE):
+
   1. Pasting `https://darlng.com` and `https://darlng.com/listen/eseriani` into opengraph.xyz shows the correct 1200x630 release artwork, title, and description — no "image not found" or relative-URL failures
   2. `https://darlng.com/sitemap.xml` and `https://darlng.com/robots.txt` return 200 with correct content
   3. Lighthouse run on the live `https://darlng.com` homepage shows LCP <2.5s, CLS <0.1, and TBT <200ms in the lab data
@@ -107,7 +123,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure & Deploy | 0/? | Not started | - |
+| 1. Infrastructure & Deploy | 1/2 | In Progress|  |
 | 2. Brand, Data & Base Layout | 0/? | Not started | - |
 | 3. Core Fan Experience | 0/? | Not started | - |
 | 4. Newsletter Fan Capture | 0/? | Not started | - |
