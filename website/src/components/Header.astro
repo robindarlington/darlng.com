@@ -1,16 +1,7 @@
 ---
-import { siSpotify, siInstagram, siFacebook, siYoutube, siTiktok } from 'simple-icons';
-import type { SimpleIcon } from 'simple-icons';
 import BrandIcon from './BrandIcon.astro';
-import { socials, type SocialPlatform } from '../data/releases';
-
-const socialIcons: Record<SocialPlatform, SimpleIcon> = {
-	spotify: siSpotify,
-	instagram: siInstagram,
-	facebook: siFacebook,
-	youtube: siYoutube,
-	tiktok: siTiktok,
-};
+import { socials } from '../data/releases';
+import { socialIcons } from '../data/social-icons';
 ---
 
 <header class="bg-surface sticky top-0 z-50 border-b border-white/5 h-16 md:h-18">
