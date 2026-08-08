@@ -148,16 +148,24 @@ Container: no explicit wrapper needed — `Layout.astro`'s `<main class="mx-auto
 
 ### State message region (CLS-safe, fixed floor)
 
+> **Correction (2026-08-08, code review WR-06):** this spec's original math undercounted.
+> The success state renders **two** separate `<p>` elements (see Form States table), and
+> the second paragraph alone wraps to 2 lines at 343px mobile width per the note below —
+> so the true minimum is 1 line (first `<p>`) + 2 lines (second `<p>` wrapped) = **3 lines
+> / 72px**, not the 2 lines / 48px originally stated. The shipped implementation uses
+> `min-h-18` (72px) and is correct; this spec's value below is corrected to match.
+
 ```css
 #newsletter-status {
-  min-height: 3rem; /* 48px — reserves 2 lines at 16px/1.5 line-height,
-                        the longest message this phase renders ("We just
-                        sent a confirmation link — click it and you're on
-                        the list.") wraps to 2 lines at 343px mobile width */
+  min-height: 4.5rem; /* 72px — reserves 3 lines at 16px/1.5 line-height. The success
+                          state renders two <p> elements: the first is always 1 line,
+                          and the second ("We just sent a confirmation link — click it
+                          and you're on the list.") alone wraps to 2 lines at 343px
+                          mobile width. 1 + 2 = 3 lines is the true CLS-safe floor. */
 }
 ```
 
-The region is **always present in the DOM** (never `display:none`) — in the idle state it renders with no text content, occupying its reserved 48px so no later state transition shifts the privacy note or anything below it. `role="status" aria-live="polite"`.
+The region is **always present in the DOM** (never `display:none`) — in the idle state it renders with no text content, occupying its reserved 72px so no later state transition shifts the privacy note or anything below it. `role="status" aria-live="polite"`.
 
 ---
 
