@@ -54,7 +54,9 @@ const { videoId, titleForA11y, thumbnail } = Astro.props;
 			iframe.allowFullscreen = true;
 			iframe.referrerPolicy = 'strict-origin-when-cross-origin';
 			iframe.className = 'absolute inset-0 h-full w-full border-0';
+			iframe.tabIndex = -1;
 			container?.replaceChildren(iframe);
+			iframe.focus();
 		},
 		{ once: true }
 	);
