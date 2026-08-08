@@ -4,9 +4,12 @@ import { Picture } from 'astro:assets';
 import { ChevronRight } from '@lucide/astro';
 import BrandIcon from '../components/BrandIcon.astro';
 import YouTubeFacade from '../components/YouTubeFacade.astro';
+import DiscographyCard from '../components/DiscographyCard.astro';
 import { platformIcons } from '../data/platform-icons';
-import { latestRelease } from '../data/releases';
+import { latestRelease, releases } from '../data/releases';
 import type { Platform } from '../data/releases';
+
+const backCatalog = releases.filter((release) => !release.isLatest);
 
 const heroPlatforms: Platform[] = ['spotify', 'appleMusic', 'youtube'];
 const ctaLinks = heroPlatforms.map(
@@ -76,4 +79,13 @@ const { youtubeEmbed } = latestRelease;
 			}
 		</div>
 	</section>
+
+	<section class="py-16" aria-labelledby="catalog-heading">
+		<h2 id="catalog-heading" class="text-2xl leading-tight font-display font-bold">The Catalog</h2>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+			{backCatalog.map((release) => <DiscographyCard release={release} />)}
+		</div>
+	</section>
+
+	<!-- Phase 4 newsletter section mounts here, between the catalog and the footer -->
 </Layout>

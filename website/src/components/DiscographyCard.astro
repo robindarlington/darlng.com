@@ -1,0 +1,79 @@
+---
+// One <article> per back-catalog release: art+title link, credit line,
+// first-three platform icon row (fallback glyph for icon-less platforms),
+// and a distinctly-labelled all-platforms link. See 03-UI-SPEC.md
+// "Discography (MUSIC-01, MUSIC-02)" for the full anatomy contract.
+import { Picture } from 'astro:assets';
+import { ChevronRight, ExternalLink } from '@lucide/astro';
+import BrandIcon from './BrandIcon.astro';
+import { platformIcons } from '../data/platform-icons';
+import type { Release } from '../data/releases';
+
+interface Props {
+	release: Release;
+}
+
+const { release } = Astro.props;
+// artistLine already contains the full credit string (e.g. "Darlng ft. Shubi
+// Di Badman") — strip the leading "Darlng " to get just the feature clause,
+// never re-concatenate a second "ft.".
+const credit = release.artistLine.replace(/^Darlng\s+/, '');
+// slice(0, 3) naturally yields fewer than three entries for a shorter array —
+// that's the intended behaviour, never padded or errored.
+const iconPlatforms = release.platforms.slice(0, 3);
+---
+
+<article>
+	<a
+		href={`/listen/${release.slug}`}
+		aria-label={`${release.title} — listen and platforms`}
+		class="group block"
+	>
+		<div class="relative overflow-hidden rounded-card transition-shadow duration-200 group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
+			<Picture
+				src={release.cover}
+				formats={['avif', 'webp']}
+				widths={[300, 400, 600, 800]}
+				sizes="(min-width:1280px) 384px, (min-width:768px) 224px, 100vw"
+				fit="cover"
+				loading="lazy"
+				alt={`${release.title} cover art`}
+				class="aspect-square w-full rounded-card object-cover transition-transform duration-200 group-hover:scale-105"
+			/>
+		</div>
+		<h3 class="mt-4 text-2xl leading-tight font-display font-bold transition-colors duration-200 group-hover:text-accent">
+			{release.title}
+		</h3>
+	</a>
+
+	<p class="mt-1 text-sm text-text-muted">{release.year} &middot; {credit}</p>
+
+	<div class="flex items-center gap-1 mt-4">
+		{
+			iconPlatforms.map((link) => (
+				<a
+					href={link.url}
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label={`Listen to ${release.title} on ${link.label}`}
+					class="flex items-center justify-center min-h-11 min-w-11 rounded-full text-text-muted transition-colors duration-150 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-95"
+				>
+					{platformIcons[link.platform] ? (
+						<BrandIcon icon={platformIcons[link.platform]!} class="w-5 h-5" />
+					) : (
+						<ExternalLink size={20} />
+					)}
+				</a>
+			))
+		}
+	</div>
+
+	<a
+		href={`/listen/${release.slug}`}
+		aria-label={`All ${release.title} platforms`}
+		class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-accent"
+	>
+		All platforms
+		<ChevronRight size={16} />
+	</a>
+</article>
