@@ -177,3 +177,5 @@ None - no external service configuration required.
 *Completed: 2026-08-08*
 
 ## Self-Check: PASSED
+
+> **Evidence correction (2026-08-08):** The Task-1 verify script's platform-button count method (aria-label substring grep) was invalidated when the code-review fix pass (d2290c0) restored the UI-SPEC's locked nav aria-label copy — the nav label is a substring of the button pattern, so the script now over-counts (5/8/6/7). Actual per-page platform-button counts remain correct (4/7/5/6), re-confirmed by the Phase 3 verifier via DOM element counts. The LISTEN-01 conclusion stands; only this measurement method is stale.
