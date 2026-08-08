@@ -2,7 +2,7 @@
 // narrow — email input, honeypot, submit button, and the aria-live status
 // region (per 04-UI-SPEC.md's Section Anatomy). Heading, pitch line, and
 // privacy note are static Astro markup rendered outside this island.
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 
 type Status =
   | 'idle'
@@ -24,6 +24,11 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [mounted, setMounted] = useState(false);
+  // Synchronous reentrancy guard — status-derived `disabled` attributes only
+  // take effect after the next render, which is too late to stop a second
+  // `handleSubmit` invocation fired before that commit (rapid double-click,
+  // double-tap, or repeated Enter while the first request is in flight).
+  const inFlightRef = useRef(false);
 
   useEffect(() => {
     setMounted(true);
@@ -32,10 +37,16 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
   async function handleSubmit(e: Event) {
     e.preventDefault();
 
+    if (inFlightRef.current) {
+      return;
+    }
+
     if (!EMAIL_PATTERN.test(email)) {
       setStatus('error-validation');
       return;
     }
+
+    inFlightRef.current = true;
 
     if (honeypot) {
       // Bot detected: silently render the exact same success UI as a genuine
@@ -43,6 +54,7 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
       // caught bot gains no signal that it was caught (04-UI-SPEC.md
       // Honeypot Spec).
       setStatus('success');
+      inFlightRef.current = false;
       return;
     }
 
@@ -86,6 +98,8 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
       // failure) — both collapse to the single network/API error state.
       clearTimeout(timeoutId);
       setStatus('error-network');
+    } finally {
+      inFlightRef.current = false;
     }
   }
 
