@@ -182,6 +182,116 @@ exist once Coolify, DNS, and Let's Encrypt are actually wired together.
       endpoint) and confirm the confirmation email arrives in the inbox — not the
       spam folder.
 
+## 5. Newsletter Wiring — Listmonk Public Subscription
+
+The homepage's newsletter island POSTs JSON `{ email, list_uuids }` straight from the
+fan's browser to `${PUBLIC_LISTMONK_URL}/api/public/subscription`, cross-origin, with
+no server runtime sitting in between — this site is a static build, so there is no
+proxy or API route of ours to hide the request behind. The whole `<section
+id="newsletter">` (including the island's hydration script) is only emitted into the
+built HTML at all when both `PUBLIC_LISTMONK_URL` and `PUBLIC_LISTMONK_LIST_UUID` were
+present at build time — see Section 2 above for exactly where those two variables are
+set. They are **build-time** values, not runtime ones: Astro bakes `PUBLIC_*` env vars
+into the static output when `npm run build` runs, so changing either one in Coolify
+does nothing to the live site until you trigger a redeploy of the static site
+application.
+
+- [ ] **Endpoint gates — two independent settings, either one alone causes a 400.**
+      Neither failure looks like a misconfigured endpoint from the error alone, so
+      check both before assuming the request body is wrong:
+      - [ ] In Listmonk admin, confirm the public-subscription-page setting is
+            enabled. This backs the `enable_public_subscription_page` config key —
+            the exact admin tab is not screenshot-verified against a live instance
+            (look under Settings first; verify the exact location once you're in the
+            UI).
+      - [ ] Confirm the fan list created in Section 2 has type **Public**, not
+            Private.
+      - Troubleshooting note: a `400` response to a request whose list UUID is
+        definitely correct almost always means one of these two settings, not a
+        malformed request body — check both before debugging the POST payload
+        itself.
+
+- [ ] **CORS — configure it in exactly ONE place, never two.** A browser rejects a
+      response outright if it carries duplicate `Access-Control-Allow-Origin`
+      headers, so picking both the primary and the fallback below at the same time
+      breaks legitimate requests, not just illegitimate ones.
+      - **Primary (recommended):** add the site's origin (`https://darlng.com`) to
+        Listmonk's own Trusted URLs list — the admin field backing the
+        `security.trusted_urls` config key (likely under Settings → Security; the
+        exact label is not screenshot-verified against a live instance, confirm it
+        once you're in the UI). Whenever that list is non-empty, Listmonk registers
+        its own app-layer CORS middleware and handles the preflight and response
+        headers itself. This is now the recommended approach over proxy-level rules:
+        a single admin field replaces hand-written CORS directives and makes the
+        duplicate-header mistake above structurally impossible, because there is
+        only ever one place CORS could be configured.
+      - **Fallback — use ONLY if Trusted URLs turns out not to cover preflight
+        `OPTIONS` requests on the subscription route:** configure CORS headers at
+        the Traefik/nginx layer in front of Listmonk instead. If you fall back to
+        this, first **clear the Trusted URLs entry** so only one CORS authority
+        remains active.
+      - Note: an earlier note in this project's STATE.md said to configure CORS "at
+        the proxy layer, not the app layer." That predates the source read that
+        found Listmonk's own native CORS middleware — this section supersedes that
+        earlier note.
+
+- [ ] **Bot mitigation — the honest posture.** Read this before enabling anything in
+      Listmonk's Settings → Security → Captcha/ALTCHA section: those settings guard
+      only Listmonk's own hosted HTML subscription form handler
+      (`/subscription/form`). The JSON API route this site's island posts to
+      (`/api/public/subscription`) has no captcha check at all — this was confirmed
+      by reading Listmonk's own handler source, and the upstream request to add
+      captcha coverage to the public API was closed by the Listmonk maintainers as
+      not planned. Turning ALTCHA on in Listmonk admin does nothing to protect this
+      endpoint. What actually protects the fan list, in order:
+      1. The honeypot field shipped in the site's form (`hp_website`) — silently
+         withholds the request client-side if a bot fills it. Best-effort only; it
+         catches naive scrapers and nothing more sophisticated.
+      2. The fan list's double opt-in (enabled in Section 2) — an unconfirmed
+         address never becomes a real subscriber and never receives a campaign send.
+      3. Reverse-proxy rate limiting scoped to the subscription path — the only
+         server-side lever that actually applies to this endpoint. Add one of the
+         two recipes below, depending on whether Listmonk sits behind Coolify's
+         bundled Traefik or a separate nginx instance.
+
+      **nginx** (add to the `http` block, then reference the zone in the `location`
+      block that proxies to Listmonk):
+      ```nginx
+      limit_req_zone $binary_remote_addr zone=newsletter:10m rate=5r/m;
+
+      location /api/public/subscription {
+          limit_req zone=newsletter burst=3 nodelay;
+          proxy_pass http://listmonk;
+      }
+      ```
+
+      **Traefik** (Coolify's bundled proxy — apply as a middleware label on the
+      Listmonk service):
+      ```yaml
+      - "traefik.http.middlewares.newsletter-ratelimit.ratelimit.average=5"
+      - "traefik.http.middlewares.newsletter-ratelimit.ratelimit.period=1m"
+      - "traefik.http.middlewares.newsletter-ratelimit.ratelimit.burst=3"
+      - "traefik.http.routers.<your-listmonk-router>.middlewares=newsletter-ratelimit"
+      ```
+
+- [ ] **What the site does and does not use** — the full API surface, decided on
+      purpose, not by omission:
+      - It uses the public subscription POST with `email` and `list_uuids` only.
+      - It deliberately omits the optional `name` field — Listmonk defaults it to
+        the email's local part, and the form collects only an email address.
+      - It reads the response's `has_optin` flag but never branches UI state on it —
+        that flag describes the list's opt-in mode, not whether the address was new.
+      - It never distinguishes a repeat subscriber from a new one: the endpoint
+        returns an identical `200` either way, so a fan re-submitting the same
+        address sees the ordinary success message.
+      - It touches no authenticated Listmonk API, so no Listmonk API key ever
+        exists anywhere in the site's build or repository.
+
+As with every account-specific value elsewhere in this document: never type a
+`PUBLIC_LISTMONK_LIST_UUID`, API key, or DNS record value from memory into this file
+or into a config field — always copy it verbatim from its own dashboard (Section 3's
+DNS-records warning above states the same rule for Resend's records).
+
 ## Notes
 
 - **`vite` override in `package.json`:** `package.json` pins `"@tailwindcss/vite": "4.1.16"`
