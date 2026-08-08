@@ -12,9 +12,15 @@ import type { Platform } from '../data/releases';
 const backCatalog = releases.filter((release) => !release.isLatest);
 
 const heroPlatforms: Platform[] = ['spotify', 'appleMusic', 'youtube'];
-const ctaLinks = heroPlatforms.map(
-	(platform) => latestRelease.platforms.find((link) => link.platform === platform)!
-);
+const ctaLinks = heroPlatforms.map((platform) => {
+	const link = latestRelease.platforms.find((l) => l.platform === platform);
+	if (!link) {
+		throw new Error(
+			`releases.ts: latest release "${latestRelease.slug}" is missing a "${platform}" platform link required by the hero CTA row.`
+		);
+	}
+	return link;
+});
 const { youtubeEmbed } = latestRelease;
 ---
 
