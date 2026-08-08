@@ -41,19 +41,27 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
       return;
     }
 
-    if (!EMAIL_PATTERN.test(email)) {
-      setStatus('error-validation');
-      return;
-    }
-
     inFlightRef.current = true;
 
     if (honeypot) {
       // Bot detected: silently render the exact same success UI as a genuine
       // signup, with no network call and no separate visual state — the
       // caught bot gains no signal that it was caught (04-UI-SPEC.md
-      // Honeypot Spec).
+      // Honeypot Spec). Checked FIRST, independent of email validity, so a
+      // bot that fills the honeypot but submits a malformed email never sees
+      // a different (validation-error) response than one that submits a
+      // well-formed email — the honeypot path must not be conditional on
+      // anything else. A randomized delay approximates real network latency
+      // so a bot doing simple response-timing analysis can't distinguish
+      // this instant local branch from a genuine round trip to Listmonk.
+      await new Promise((resolve) => setTimeout(resolve, 400 + Math.random() * 500));
       setStatus('success');
+      inFlightRef.current = false;
+      return;
+    }
+
+    if (!EMAIL_PATTERN.test(email)) {
+      setStatus('error-validation');
       inFlightRef.current = false;
       return;
     }
