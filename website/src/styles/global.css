@@ -26,6 +26,10 @@
   /* Pill shapes intentionally use Tailwind's built-in `rounded-full` utility
      (see 02-UI-SPEC.md button contract) rather than a custom token — removed
      unused --radius-pill (was numerically identical to rounded-full, IN-01). */
+
+  /* Hero display size — Phase 3 addition, the ONE new typography token this
+     phase introduces (see 03-UI-SPEC.md Typography). Homepage hero <h1> only. */
+  --text-hero: clamp(3rem, 8vw, 6rem);
 }
 
 body {
@@ -46,4 +50,22 @@ body {
 
 .social-icon-link:hover {
   box-shadow: 0 0 12px color-mix(in oklch, var(--color-accent) 40%, transparent);
+}
+
+/* Hero scrim — applied as an absolutely-positioned overlay above the art,
+   below the content. Stops are load-bearing contrast math (see 03-UI-SPEC.md
+   "Scrim & contrast rule") — transcribed verbatim, do not round or re-derive. */
+.hero-scrim {
+  background: linear-gradient(
+    to top,
+    color-mix(in oklch, var(--color-bg) 95%, transparent) 0%,
+    color-mix(in oklch, var(--color-bg) 88%, transparent) 50%,
+    color-mix(in oklch, var(--color-bg) 40%, transparent) 72%,
+    transparent 92%
+  );
+}
+
+.platform-button:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 16px color-mix(in oklch, var(--color-accent) 30%, transparent);
 }

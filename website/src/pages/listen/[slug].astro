@@ -1,0 +1,61 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Picture } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import PlatformButton from '../../components/PlatformButton.astro';
+import { releases } from '../../data/releases';
+
+export const getStaticPaths = (() => {
+	return releases.map((release) => ({
+		params: { slug: release.slug },
+		props: { release },
+	}));
+}) satisfies GetStaticPaths;
+
+const { release } = Astro.props;
+---
+
+<Layout
+	title={`Listen to ${release.title} — DARLNG`}
+	description={`Listen to ${release.title} by ${release.artistLine} on every platform.`}
+>
+	<div class="py-12 md:py-16">
+		<a href="/" class="text-base font-semibold text-text-muted transition hover:text-accent">
+			&larr; Back to DARLNG
+		</a>
+
+		<div class="max-w-md mx-auto px-4 mt-8 flex flex-col items-center text-center">
+			<Picture
+				src={release.cover}
+				formats={['avif', 'webp']}
+				widths={[320, 384, 640, 768]}
+				fit="cover"
+				loading="eager"
+				alt={`${release.title} cover art`}
+				class="rounded-card max-w-xs sm:max-w-sm w-full"
+			/>
+
+			<p class="text-sm font-semibold uppercase tracking-wide text-accent mt-8">LISTEN EVERYWHERE</p>
+			<h1 class="text-[40px] leading-[1.05] font-display font-extrabold mt-2">{release.title}</h1>
+			<p class="text-base font-semibold text-text-muted mt-4">{release.artistLine} &middot; {release.year}</p>
+			<p class="text-base text-text mt-4">Listen to {release.title} everywhere — pick your platform.</p>
+
+			<nav aria-label={`Where to listen to ${release.title}`} class="w-full mt-8">
+				<ul class="flex flex-col gap-3">
+					{
+						release.platforms.map((link) => (
+							<li>
+								<PlatformButton
+									href={link.url}
+									label={link.label}
+									platform={link.platform}
+									releaseTitle={release.title}
+								/>
+							</li>
+						))
+					}
+				</ul>
+			</nav>
+		</div>
+	</div>
+</Layout>
