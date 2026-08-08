@@ -107,7 +107,7 @@ Plans:
 
   1. Submitting a real email in the newsletter form at `https://darlng.com` delivers a confirmation email to that inbox within two minutes — verified from the live deployed domain, not localhost
   2. The form shows distinct success ("Check your inbox to confirm"), error (network/API failure), and already-subscribed states — each visible without refreshing the page
-  3. A rapid-fire bot POST to the Listmonk subscription endpoint returns a non-200 response (ALTCHA validation active)
+  3. Bot mitigation active: honeypot field silently drops bot submissions client-side, double opt-in prevents list pollution server-side, and DEPLOY.md documents proxy-layer rate limiting for the subscription endpoint. (AMENDED 2026-08-08: Listmonk's public API endpoint does not support ALTCHA — verified from Listmonk source, cmd/public.go; ALTCHA only guards its hosted /subscription/form page. Original criterion unsatisfiable as worded.)
   4. SPF, DKIM, and DMARC DNS records for the Listmonk sending domain pass mxtoolbox.com verification — confirmation emails do not land in spam
 
 **Content inputs needed:** Listmonk list UUID (available after Phase 1 list creation) → set as `PUBLIC_LISTMONK_LIST_UUID` in Coolify environment variables.
