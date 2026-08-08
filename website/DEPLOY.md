@@ -182,6 +182,56 @@ exist once Coolify, DNS, and Let's Encrypt are actually wired together.
       endpoint) and confirm the confirmation email arrives in the inbox — not the
       spam folder.
 
+### Newsletter — the three checks deferred to this deploy step
+
+Run this subsection only after Section 5 is complete and the static site application
+has been redeployed with both `PUBLIC_LISTMONK_URL` and `PUBLIC_LISTMONK_LIST_UUID`
+set. Before that, the newsletter section is deliberately absent from the live page —
+there is nothing here to test yet.
+
+- [ ] **Real signup (Roadmap success criterion 1).** Load the live site and scroll to
+      the newsletter section — confirm it's present at all. If it's missing, the env
+      vars were not set at build time, or the redeploy after setting them didn't
+      run. Submit a real email address you control through the live form. Expect the
+      in-page success message inviting you to check your inbox, then a confirmation
+      email arriving within two minutes, in the inbox, not the spam folder. Click
+      the confirmation link and confirm the subscriber's status flips to `confirmed`
+      in Listmonk's admin subscriber view. Note: Section 2's earlier "send test
+      email" checkbox above proves SMTP works but does not prove this path — this
+      check exercises the deployed form, CORS, and double opt-in together, live.
+- [ ] **Deliverability (Roadmap success criterion 4).** Run
+      [mxtoolbox.com](https://mxtoolbox.com) against the sending domain and confirm
+      SPF, DKIM, and DMARC all pass — see Section 3 above for the DNS records this
+      is checking; this step doesn't repeat that setup, only re-verifies it live.
+- [ ] **Bot posture (Roadmap success criterion 3, amended 2026-08-08).** First,
+      understand what this check does and does not prove: run a `curl` POST
+      directly at the endpoint —
+      ```bash
+      curl -i -X POST https://mail.darlng.com/api/public/subscription \
+        -H "Content-Type: application/json" \
+        -d '{"email":"bot-test@example.com","list_uuids":["<your-list-uuid>"]}'
+      ```
+      This bypasses the browser form entirely, so the honeypot never sees it, and it
+      **will return `200`** — that is expected and correct, not a failure. The
+      honeypot is a client-side filter on the form, not a guard on the endpoint
+      itself. What to actually verify:
+      - [ ] Repeating that same `curl` rapidly starts returning a rate-limit status
+            (`429` for nginx, `429`/`503` depending on middleware config for
+            Traefik) once the Section 5 rate-limit rule is in place — that's the
+            server-side mitigation actually working.
+      - [ ] The address subscribed this way sits **unconfirmed** in Listmonk's
+            subscriber view and therefore never receives a campaign send — that's
+            double opt-in doing its half.
+      - Roadmap success criterion 3 originally called for the endpoint to return a
+        non-200 response with "ALTCHA validation active." That criterion was
+        **amended on 2026-08-08** because Listmonk's captcha does not cover this
+        route (see Section 5's bot-mitigation note above) — an operator reading an
+        older note should not go hunting for a setting that cannot exist for this
+        endpoint.
+      - [ ] Cleanup: delete the test subscribers created by both the real-signup
+        check above and this bot-POST check from Listmonk's admin, so the fan list
+        starts clean.
+
 ## 5. Newsletter Wiring — Listmonk Public Subscription
 
 The homepage's newsletter island POSTs JSON `{ email, list_uuids }` straight from the
