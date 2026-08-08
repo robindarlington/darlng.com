@@ -203,13 +203,21 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
         role="status"
         aria-live="polite"
         tabindex={-1}
-        // 72px / 3 lines, not the 48px/2-line figure in 04-UI-SPEC.md — that spec
-        // value undercounts: the success state renders two separate <p> elements,
-        // and the second one alone wraps to 2 lines at 343px mobile width per the
-        // spec's own note, so 1 (first <p>) + 2 (second <p> wrapped) = 3 lines is
-        // the true CLS-safe floor. See 04-UI-SPEC.md's dated correction note
-        // (2026-08-08) in the "State message region" section.
-        class={`min-h-18 mt-2 w-full text-base${statusColorClass}`}
+        // Mobile (default): 72px / 3 lines, not the 48px/2-line figure in
+        // 04-UI-SPEC.md — that spec value undercounts: the success state
+        // renders two separate <p> elements, and the second one alone wraps
+        // to 2 lines at 343px mobile width per the spec's own note, so
+        // 1 (first <p>) + 2 (second <p> wrapped) = 3 lines is the true
+        // CLS-safe floor at this width. See 04-UI-SPEC.md's dated correction
+        // note (2026-08-08) in the "State message region" section.
+        // md+ (768px/1440px, live-measured via agent-browser, 2026-08-08):
+        // the form's max-w-lg container is wide enough that the second <p>
+        // renders as a single line (verified clientHeight 24px at both
+        // breakpoints), so only 2 lines / 48px are needed — `md:min-h-12`
+        // recovers the unused third line's whitespace without reintroducing
+        // CLS (re-verified zero shift on the idle->success transition at
+        // both 768px and 1440px).
+        class={`min-h-18 md:min-h-12 mt-2 w-full text-base${statusColorClass}`}
       >
         {isSuccess && (
           <>
