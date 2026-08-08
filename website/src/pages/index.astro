@@ -12,7 +12,10 @@ import type { Platform } from '../data/releases';
 
 const backCatalog = releases.filter((release) => !release.isLatest);
 
-const listmonkUrl = import.meta.env.PUBLIC_LISTMONK_URL;
+// Strip trailing slash(es) so `${listmonkUrl}/api/public/subscription` never
+// produces a double-slash path if the operator pastes a trailing-slash URL
+// into Coolify's env-var UI (see DEPLOY.md Section 2).
+const listmonkUrl = import.meta.env.PUBLIC_LISTMONK_URL?.replace(/\/+$/, '');
 const listmonkListUuid = import.meta.env.PUBLIC_LISTMONK_LIST_UUID;
 const newsletterEnabled = Boolean(listmonkUrl && listmonkListUuid);
 
