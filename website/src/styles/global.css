@@ -60,15 +60,32 @@ body {
 
 /* Hero scrim — applied as an absolutely-positioned overlay above the art,
    below the content. Stops are load-bearing contrast math (see 03-UI-SPEC.md
-   "Scrim & contrast rule") — transcribed verbatim, do not round or re-derive. */
+   "Scrim & contrast rule") — transcribed verbatim, do not round or re-derive.
+   Below lg the composed content stack (kicker/h1/artist/CTAs + facade) rises to
+   ~78% of hero height, so the ≥85%-opacity band extends to 80% there (88% opacity
+   = 13.3:1 worst-case white underneath, same verified math). The spec's original
+   stops apply from lg: where the facade sits in its own column and content stays
+   inside the bottom 45%. Gap closure for 03-VERIFICATION blocker (2026-08-08). */
 .hero-scrim {
   background: linear-gradient(
     to top,
     color-mix(in oklch, var(--color-bg) 95%, transparent) 0%,
-    color-mix(in oklch, var(--color-bg) 88%, transparent) 50%,
-    color-mix(in oklch, var(--color-bg) 40%, transparent) 72%,
-    transparent 92%
+    color-mix(in oklch, var(--color-bg) 88%, transparent) 80%,
+    color-mix(in oklch, var(--color-bg) 40%, transparent) 92%,
+    transparent 100%
   );
+}
+
+@media (min-width: 64rem) {
+  .hero-scrim {
+    background: linear-gradient(
+      to top,
+      color-mix(in oklch, var(--color-bg) 95%, transparent) 0%,
+      color-mix(in oklch, var(--color-bg) 88%, transparent) 50%,
+      color-mix(in oklch, var(--color-bg) 40%, transparent) 72%,
+      transparent 92%
+    );
+  }
 }
 
 .platform-button:hover {
