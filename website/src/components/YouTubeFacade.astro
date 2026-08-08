@@ -40,7 +40,9 @@ const { videoId, titleForA11y, thumbnail } = Astro.props;
 </div>
 
 <script define:vars={{ videoId, titleForA11y }}>
-	const container = document.querySelector('.facade-container');
+	const container =
+		document.currentScript?.closest('.facade-container') ??
+		document.currentScript?.previousElementSibling;
 	const trigger = container?.querySelector('[data-facade-trigger]');
 	trigger?.addEventListener(
 		'click',
