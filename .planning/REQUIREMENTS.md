@@ -31,7 +31,7 @@ Requirements for initial release. Each maps to roadmap phases. (All P1 table sta
 ### Listen & Fan Capture
 
 - [x] **LISTEN-01**: Native, fully-branded "listen everywhere" page with per-platform buttons (Spotify, Apple Music, YouTube/YouTube Music, Tidal, Amazon Music, Deezer, SoundCloud) for the latest release plus catalog access — no third-party smart link
-- [ ] **FAN-01**: Inline newsletter signup (email field) that POSTs to the self-hosted Listmonk `/api/public/subscription` endpoint, with double opt-in and ALTCHA/honeypot spam protection
+- [x] **FAN-01**: Inline newsletter signup (email field) that POSTs to the self-hosted Listmonk `/api/public/subscription` endpoint, with double opt-in and ALTCHA/honeypot spam protection
 - [ ] **FAN-02**: Newsletter form shows clear success / error / already-subscribed states to the fan
 - [x] **FAN-03**: Social follow links (Spotify artist profile, Instagram, TikTok, YouTube) as plain icon links — no Spotify Follow Button widget
 
@@ -92,7 +92,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MUSIC-01 | Phase 3 | Complete |
 | MUSIC-02 | Phase 3 | Complete |
 | LISTEN-01 | Phase 3 | Complete |
-| FAN-01 | Phase 4 | Pending |
+| FAN-01 | Phase 4 | Complete |
 | FAN-02 | Phase 4 | Pending |
 | FAN-03 | Phase 3 | Complete |
 | SEO-01 | Phase 5 | Pending |
