@@ -77,7 +77,7 @@ const server = createServer((req, res) => {
   res.end();
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '127.0.0.1', () => {
   console.log(`Mock Listmonk listening on http://localhost:${PORT}`);
   console.log('Trigger error state: email = error@test.local');
   console.log('Trigger already-subscribed state: submit the same email twice');
