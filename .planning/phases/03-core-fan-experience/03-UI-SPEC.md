@@ -27,7 +27,7 @@ created: 2026-08-07
 | Tool | none — inherited from Phase 2. No shadcn; hand-authored `.astro` components + Tailwind 4 utilities. |
 | Preset | not applicable |
 | Component library | none (hand-built `.astro` components) |
-| Icon library | `lucide-astro@^0.556.0` (generic glyphs: play triangle, chevron, external-link) + `simple-icons@^16.28.0` (brand marks — see Platform Icon Mapping below, a Phase 3 addition to the shared `BrandIcon.astro` pattern) |
+| Icon library | `@lucide/astro@^1.29.0` (generic glyphs: play triangle, chevron, external-link; replaces deprecated `lucide-astro`) + `simple-icons@^16.28.0` (brand marks — see Platform Icon Mapping below, a Phase 3 addition to the shared `BrandIcon.astro` pattern) |
 | Font | Display: **Unbounded** · Body: **Manrope** — unchanged from Phase 2 |
 
 ### New data/component files this phase introduces
@@ -203,7 +203,7 @@ Three streaming buttons — **Secondary/ghost variant from Phase 2's button cont
 - Overlay tint: `background: color-mix(in oklch, var(--color-bg) 35%, transparent)` (uniform, lighter than the hero scrim — just enough to make the play button pop and visually signal "this is clickable video," not another static cover repeat)
 - Play button: `<button type="button" aria-label="Play {youtubeEmbed.titleForA11y}">` absolutely centered
   - Size: **72px diameter (mobile) / 88px diameter (`lg:`)** — both comfortably exceed the 44px minimum
-  - Default: `bg-accent` filled circle, `--color-bg` play-triangle icon (custom inline SVG or `lucide-astro` `Play`, translated `+2px` on the x-axis for optical centering), icon size 28px mobile / 34px desktop
+  - Default: `bg-accent` filled circle, `--color-bg` play-triangle icon (custom inline SVG or `@lucide/astro` `Play`, translated `+2px` on the x-axis for optical centering), icon size 28px mobile / 34px desktop
   - Hover: `scale-105`, glow — `box-shadow: 0 0 32px color-mix(in oklch, var(--color-accent) 50%, transparent), 0 0 64px color-mix(in oklch, var(--color-accent) 25%, transparent)`, 200ms ease — deliberately bigger/richer than Phase 2's 12px icon-hover glow (this is the hero's single most important click target, "premium... not a generic YouTube red triangle clone" per CONTEXT)
   - Focus-visible: `outline: 2px solid var(--color-accent); outline-offset: 4px` (larger offset than the system default 2px, since it's circular and the outline needs breathing room from the button edge)
   - Active/pressed: `scale-95` (matches system-wide pattern)
