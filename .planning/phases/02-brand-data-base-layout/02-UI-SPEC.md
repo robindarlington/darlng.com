@@ -306,3 +306,5 @@ No component registries are used this phase. Icon "packages" (`lucide-astro`, `s
 **Approval:** pending
 
 > **Amendment (2026-08-07, post-UI-audit):** (1) Wordmark size clarified — the intent is 24px; implemented as Tailwind `text-2xl` (the spec's earlier "text-lg = 24px" row conflated the utility name with the target size). (2) Dynamic copyright year (`new Date().getFullYear()` at build time) is AUTHORIZED — it renders the spec's locked string for the current year and self-updates on rebuild.
+
+> **Amendment 2 (2026-08-08):** Wordmark responsive rule — 24px (`text-2xl tracking-wide`) from `md:` up; 20px (`text-xl tracking-normal`) below `md:` so the header row (wordmark + five 44px social targets) fits a 375px viewport without overflow. 44px tap targets preserved; icon gap 4px at base, 16px from `md:`.

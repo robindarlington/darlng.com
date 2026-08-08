@@ -1,6 +1,6 @@
 ---
 schema_version: 1
-open_count: 1
+RESOLVED_count: 1
 waived_count: 0
 fixed_count: 0
 total_count: 1
@@ -33,3 +33,5 @@ last_updated: 2026-08-08T13:32:01.619Z
   }
 ]
 ````
+
+> Entry #1 RESOLVED 2026-08-08: header 375px overflow (caused by the 24px wordmark close-out fix) — wordmark now text-xl/tracking-normal at base, text-2xl/tracking-wide from md:; icon gap-1 at base. Verified scrollWidth=375 on / and /404.
