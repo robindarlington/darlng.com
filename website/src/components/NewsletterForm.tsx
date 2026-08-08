@@ -192,7 +192,7 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
           type="submit"
           id="newsletter-submit"
           disabled={buttonDisabled}
-          class="w-full mt-2 md:mt-0 md:w-auto md:shrink-0 min-h-11 rounded-full bg-accent text-bg font-semibold px-6"
+          class="w-full mt-2 md:mt-0 md:w-auto md:shrink-0 min-h-11 rounded-full bg-accent text-bg font-semibold px-6 disabled:opacity-100 disabled:cursor-default"
         >
           {buttonLabel}
         </button>

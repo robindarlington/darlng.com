@@ -106,3 +106,8 @@ Not applicable — `components.json` not present, no shadcn/third-party registri
 - `/Users/rob/Desktop/projects/Hetzner/darlng.com/website/src/pages/index.astro` (newsletter section, lines 105-124)
 - `/Users/rob/Desktop/projects/Hetzner/darlng.com/website/src/styles/global.css` (color tokens, focus-visible rules)
 - Screenshots: `postfix-375-idle.png`, `postfix-375-success.png`, `postfix-375-validation-error.png`, `1440-idle.png`, `in01-1440-success.png`, `768-idle.png`, `in01-768-success.png`, `375-error-network.png`, `375-honeypot-success.png`
+
+> **Orchestrator resolution (2026-08-08):**
+> - **Finding 1 (already-subscribed unreachable in production) — KNOWN BY DESIGN, no change.** Source-verified in 04-RESEARCH.md: Listmonk's public API returns identical responses for new and repeat subscribers, so the state is reachable only via the mock; production UX is success-equivalent per the UI-SPEC's locked both-paths decision. The state remains for testability and any future Listmonk behavior change.
+> - **Finding 2 (pre-hydration button styling) — FIXED.** Added `disabled:opacity-100 disabled:cursor-default` to the submit button so the no-gray-out posture is CSS-enforced, not UA-default-dependent.
+> - **Finding 3 (mt-3 token gap) — ACCEPTED.** 12px is a 4px-multiple on Tailwind's default scale; recorded as a minor spec vocabulary gap, no visual defect.
