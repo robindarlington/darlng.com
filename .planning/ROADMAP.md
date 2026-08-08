@@ -112,7 +112,13 @@ Plans:
 
 **Content inputs needed:** Listmonk list UUID (available after Phase 1 list creation) → set as `PUBLIC_LISTMONK_LIST_UUID` in Coolify environment variables.
 
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+
+- [ ] 04-01-PLAN.md — Tracer: `NewsletterForm.tsx` Preact island wired end-to-end to a zero-dependency `node:http` Listmonk mock, then the full six-state machine (validation, network failure, already-subscribed, silent honeypot, `<noscript>`), mounted behind the build-time env gate in `index.astro`
+- [ ] 04-02-PLAN.md — `DEPLOY.md` newsletter runbook: endpoint gates, exactly one CORS authority (`trusted_urls` primary), the honest ALTCHA finding plus pasteable proxy rate-limit recipes, and the deferred live checklist (real confirmation email, mxtoolbox, manual bot POST)
+- [ ] 04-03-PLAN.md — Browser evidence sweep of every state at 375/768/1440 with zero-CLS, pre-hydration, live-region and in-flight-guard assertions, plus both production build gates (section + island ship only when both env vars are set)
 
 ### Phase 5: SEO & Launch Polish
 
