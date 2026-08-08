@@ -30,6 +30,12 @@
   /* Hero display size — Phase 3 addition, the ONE new typography token this
      phase introduces (see 03-UI-SPEC.md Typography). Homepage hero <h1> only. */
   --text-hero: clamp(3rem, 8vw, 6rem);
+
+  /* Headline (page-level), 40px — Phase 2's existing 4-size scale, given a
+     named token here (Phase 3, IN-02) so page-level <h1>s (listen-page,
+     404) reference the shared role instead of restating the literal
+     `text-[40px]` value at each call site. */
+  --text-headline: 2.5rem;
 }
 
 body {
