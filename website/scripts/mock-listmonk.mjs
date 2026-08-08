@@ -36,12 +36,23 @@ const server = createServer((req, res) => {
   }
 
   if (req.method === 'POST' && req.url === '/api/public/subscription') {
+    const MAX_BODY_BYTES = 16 * 1024; // plenty for { email, list_uuids }; not a real API
     let body = '';
+    let tooLarge = false;
     req.on('data', (chunk) => {
+      if (tooLarge) return;
       body += chunk;
+      if (body.length > MAX_BODY_BYTES) {
+        tooLarge = true;
+        res.writeHead(413, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'payload too large' }));
+        req.destroy();
+      }
     });
     req.on('end', () => {
+      if (tooLarge) return;
       res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Vary', 'Origin');
 
       let parsed;
       try {
