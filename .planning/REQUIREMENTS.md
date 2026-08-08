@@ -25,15 +25,15 @@ Requirements for initial release. Each maps to roadmap phases. (All P1 table sta
 
 - [x] **HERO-01**: Cinematic full-bleed hero featuring the latest release (*Eseriani*, 2026) with artwork, release title, and primary streaming CTAs (Spotify, Apple Music, YouTube)
 - [x] **HERO-02**: Spotify player embedded for the latest release, above-the-fold WITHOUT `loading="lazy"` (facade pattern to protect LCP)
-- [ ] **MUSIC-01**: Discography section presenting the back catalog (Randevu 2024, Brave 2020, Open Wide 2019) as a grid with cover art, title, and year
-- [ ] **MUSIC-02**: Each back-catalog release links out to its streaming platforms via clean native links (no embeds for back catalog)
+- [x] **MUSIC-01**: Discography section presenting the back catalog (Randevu 2024, Brave 2020, Open Wide 2019) as a grid with cover art, title, and year
+- [x] **MUSIC-02**: Each back-catalog release links out to its streaming platforms via clean native links (no embeds for back catalog)
 
 ### Listen & Fan Capture
 
 - [x] **LISTEN-01**: Native, fully-branded "listen everywhere" page with per-platform buttons (Spotify, Apple Music, YouTube/YouTube Music, Tidal, Amazon Music, Deezer, SoundCloud) for the latest release plus catalog access — no third-party smart link
 - [ ] **FAN-01**: Inline newsletter signup (email field) that POSTs to the self-hosted Listmonk `/api/public/subscription` endpoint, with double opt-in and ALTCHA/honeypot spam protection
 - [ ] **FAN-02**: Newsletter form shows clear success / error / already-subscribed states to the fan
-- [ ] **FAN-03**: Social follow links (Spotify artist profile, Instagram, TikTok, YouTube) as plain icon links — no Spotify Follow Button widget
+- [x] **FAN-03**: Social follow links (Spotify artist profile, Instagram, TikTok, YouTube) as plain icon links — no Spotify Follow Button widget
 
 ### Discoverability & Performance
 
@@ -89,12 +89,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BRAND-04 | Phase 2 | Complete |
 | HERO-01 | Phase 3 | Complete |
 | HERO-02 | Phase 3 | Complete |
-| MUSIC-01 | Phase 3 | Pending |
-| MUSIC-02 | Phase 3 | Pending |
+| MUSIC-01 | Phase 3 | Complete |
+| MUSIC-02 | Phase 3 | Complete |
 | LISTEN-01 | Phase 3 | Complete |
 | FAN-01 | Phase 4 | Pending |
 | FAN-02 | Phase 4 | Pending |
-| FAN-03 | Phase 3 | Pending |
+| FAN-03 | Phase 3 | Complete |
 | SEO-01 | Phase 5 | Pending |
 | SEO-02 | Phase 5 | Pending |
 | PERF-01 | Phase 5 | Pending |

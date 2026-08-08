@@ -87,13 +87,13 @@ Plans:
   4. `https://darlng.com/listen/eseriani` (and `/listen/randevu`, `/listen/brave`, `/listen/open-wide`) renders a branded per-platform listen page with buttons for all configured platforms
   5. Social follow links for Spotify artist profile, Instagram, TikTok, and YouTube are present in the site header or footer and open the correct profiles
 
-**Plans**: 1/3 plans executed
+**Plans**: 3/3 plans executed
 
 Plans:
 
 - [x] 03-01-PLAN.md — Tracer: full-bleed Eseriani hero (LCP `<Picture>`, scrim, CTA pills) wired end-to-end through `platform-icons.ts` and `PlatformButton.astro` to four `getStaticPaths`-generated `/listen/[slug]` pages, browser-verified at 375/768/1440
 - [x] 03-02-PLAN.md — Zero-JS-until-click `YouTubeFacade.astro` mounted in the hero: local Sharp thumbnail, accent play button, click-injected `youtube-nocookie` embed, proven third-party-request-free pre-click
-- [ ] 03-03-PLAN.md — "The Catalog" discography grid (`DiscographyCard.astro`), FAN-03 follow-anchor audit plus the phase-wide `target="_blank"`/`rel` invariant gate, and the full-phase browser sweep
+- [x] 03-03-PLAN.md — "The Catalog" discography grid (`DiscographyCard.astro`), FAN-03 follow-anchor audit plus the phase-wide `target="_blank"`/`rel` invariant gate, and the full-phase browser sweep
 
 **UI hint**: yes
 
@@ -138,6 +138,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Infrastructure & Deploy | 2/2 | Complete    | 2026-08-06 |
 | 2. Brand, Data & Base Layout | 2/2 | Complete    | 2026-08-07 |
-| 3. Core Fan Experience | 1/3 | In Progress|  |
+| 3. Core Fan Experience | 3/3 | In Progress|  |
 | 4. Newsletter Fan Capture | 0/? | Not started | - |
 | 5. SEO & Launch Polish | 0/? | Not started | - |
