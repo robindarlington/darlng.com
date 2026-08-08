@@ -155,7 +155,7 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
         id="newsletter-status"
         role="status"
         aria-live="polite"
-        class={`min-h-12 mt-2 w-full text-base${statusColorClass}`}
+        class={`min-h-18 mt-2 w-full text-base${statusColorClass}`}
       >
         {isSuccess && (
           <>
