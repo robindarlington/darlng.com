@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { Picture } from 'astro:assets';
 import { ChevronRight } from '@lucide/astro';
 import BrandIcon from '../components/BrandIcon.astro';
+import YouTubeFacade from '../components/YouTubeFacade.astro';
 import { platformIcons } from '../data/platform-icons';
 import { latestRelease } from '../data/releases';
 import type { Platform } from '../data/releases';
@@ -11,6 +12,7 @@ const heroPlatforms: Platform[] = ['spotify', 'appleMusic', 'youtube'];
 const ctaLinks = heroPlatforms.map(
 	(platform) => latestRelease.platforms.find((link) => link.platform === platform)!
 );
+const { youtubeEmbed } = latestRelease;
 ---
 
 <Layout
@@ -61,7 +63,17 @@ const ctaLinks = heroPlatforms.map(
 				</a>
 			</div>
 
-			<!-- Right grid column: reserved for Plan 03-02's facade panel -->
+			{
+				youtubeEmbed && (
+					<div class="mt-8 max-w-xl lg:mt-0 lg:max-w-lg">
+						<YouTubeFacade
+							videoId={youtubeEmbed.videoId}
+							titleForA11y={youtubeEmbed.titleForA11y}
+							thumbnail={latestRelease.cover}
+						/>
+					</div>
+				)
+			}
 		</div>
 	</section>
 </Layout>
