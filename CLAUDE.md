@@ -41,7 +41,7 @@ The official artist website for **DARLNG**, an Afro/RnB/Pop artist. It's a dark,
 ### Supporting Libraries
 | Library | Version (pin to) | Purpose | When to Use |
 |---------|-----------------|---------|-------------|
-| lucide-astro | `^0.556.0` | SVG icon components | Social icons, streaming platform icons, UI chrome; renders as inline SVG, zero JS |
+| @lucide/astro | `^1.29.0` | SVG icon components | Social icons, streaming platform icons, UI chrome; renders as inline SVG, zero JS. (`lucide-astro` was deprecated on npm 2026 — superseded 2026-08-07; installed and verified in Phase 2/3.) |
 | @fontsource/* | `^5.2.8` | Self-hosted web fonts | Import specific weight CSS files in the global stylesheet; avoids Google Fonts network calls; choose fonts at build time |
 | @fontsource-variable/* | `^5.2.8` | Variable font variant | Prefer this over static Fontsource packages when a variable font is available — one import covers all weights |
 ### Development Tools
@@ -115,7 +115,7 @@ The official artist website for **DARLNG**, an Afro/RnB/Pop artist. It's a dark,
 | `tailwind.config.js` | Tailwind 4 is CSS-first; JS config is v3 | `@theme {}` block in global CSS |
 | Third-party smart link services (Linkfire, ToneDen) | Cost, lock-in, off-brand UI, no value for already-released catalog | Native "listen everywhere" page (requirement already decided) |
 | Storing `LIST_UUID` in client JS as a secret | It's a public endpoint; the UUID is not a credential — it's fine in client code | Document it clearly; double opt-in protects list quality |
-| `@lucide/astro` | Different package from what the sibling site uses (`lucide-astro`); maintain consistency | `lucide-astro@^0.556.0` |
+| `lucide-astro` | Deprecated on npm registry in favor of the official `@lucide/astro` (verified 2026-08-06) | `@lucide/astro@^1.29.0` |
 | Images in `public/` for cover art | Skips Sharp processing; no avif/webp output; no srcset | Put in `src/assets/`, use `<Picture />` |
 ## Version Compatibility Matrix
 | Package | Compatible Astro | Notes |
@@ -125,7 +125,7 @@ The official artist website for **DARLNG**, an Afro/RnB/Pop artist. It's a dark,
 | `@astrojs/sitemap@^3.x` | Astro 5.x | Sitemap 3.x is current and works with Astro 5-7 |
 | `@tailwindcss/vite@^4.x` | Astro >=5.2.0 | `astro add tailwind` installs this; requires Astro >=5.2 |
 | `sharp@^0.34.x` | Astro 5.x | Peer requirement for `astro:assets` image processing |
-| `lucide-astro@^0.556.x` | Any Astro version | Plain Astro component package |
+| `@lucide/astro@^1.29.x` | Any Astro version | Plain Astro component package (replaces deprecated `lucide-astro`) |
 ## Sources
 - `/withastro/docs` (Context7) — `output: 'static'`, image optimization, Preact islands directives, Tailwind 4 setup, Fontsource font API, content collections
 - `/knadh/listmonk` (Context7) — `POST /api/public/subscription` endpoint, parameters, double opt-in list type
