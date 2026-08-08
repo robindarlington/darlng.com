@@ -4,6 +4,7 @@ import { Picture } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import PlatformButton from '../../components/PlatformButton.astro';
 import { releases } from '../../data/releases';
+import type { Release } from '../../data/releases';
 
 export const getStaticPaths = (() => {
 	return releases.map((release) => ({
@@ -11,6 +12,10 @@ export const getStaticPaths = (() => {
 		props: { release },
 	}));
 }) satisfies GetStaticPaths;
+
+interface Props {
+	release: Release;
+}
 
 const { release } = Astro.props;
 ---
