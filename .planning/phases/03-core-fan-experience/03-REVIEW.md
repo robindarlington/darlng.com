@@ -17,7 +17,9 @@ findings:
   warning: 5
   info: 3
   total: 8
-status: issues_found
+status: fixed
+fixed_at: 2026-08-08T14:05:20Z
+fix_report: 03-REVIEW-FIX.md
 ---
 
 # Phase 3: Code Review Report
@@ -52,6 +54,8 @@ const trigger = container?.querySelector('[data-facade-trigger]');
 ```
 or give each container a unique `id` derived from `videoId` and query by that id.
 
+**Resolved:** commit `51a1f84` — scoped via `document.currentScript?.closest('.facade-container') ?? document.currentScript?.previousElementSibling`. See `03-REVIEW-FIX.md`.
+
 ### WR-02: No focus management after the facade swaps DOM on click
 
 **File:** `website/src/components/YouTubeFacade.astro:47-56`
@@ -62,6 +66,8 @@ iframe.tabIndex = -1;
 container?.replaceChildren(iframe);
 iframe.focus();
 ```
+
+**Resolved:** commit `c7bd93c` — `iframe.tabIndex = -1` + `iframe.focus()` after `replaceChildren`. See `03-REVIEW-FIX.md`.
 
 ### WR-03: Listen-page `<nav>` `aria-label` drifts from the UI-SPEC's locked copy
 
@@ -75,6 +81,8 @@ Different wording than the design contract specifies for an accessibility-facing
 ```astro
 <nav aria-label={`Listen to ${release.title} on these platforms`} class="w-full mt-8">
 ```
+
+**Resolved:** commit `d2290c0` — copy now matches the UI-SPEC verbatim. See `03-REVIEW-FIX.md`.
 
 ### WR-04: Hero CTA links rely on an unguarded non-null assertion instead of a build-time invariant check
 
@@ -98,6 +106,8 @@ const ctaLinks = heroPlatforms.map((platform) => {
 });
 ```
 
+**Resolved:** commit `949fb49` — descriptive build-time throw added, following the `latestRelease` invariant pattern. See `03-REVIEW-FIX.md`.
+
 ### WR-05: `/listen/[slug].astro` has no `Props` type — `Astro.props` (and `release`) is implicitly `any`
 
 **File:** `website/src/pages/listen/[slug].astro:15`
@@ -113,6 +123,8 @@ interface Props {
 const { release } = Astro.props;
 ```
 
+**Resolved:** commit `a2a8d55` — `Props` interface added; `astro check` confirms 0 errors. See `03-REVIEW-FIX.md`.
+
 ## Info
 
 ### IN-01: Inconsistent indentation within `YouTubeFacade.astro`
@@ -121,11 +133,15 @@ const { release } = Astro.props;
 **Issue:** The `interface Props { ... }` block uses 2-space indentation while the rest of the file (and every other reviewed `.astro` file: `DiscographyCard.astro`, `Header.astro`, `PlatformButton.astro`, `index.astro`, `listen/[slug].astro`) uses tabs.
 **Fix:** Re-indent lines 5-9 with tabs to match the file's own markup section and the rest of the codebase.
 
+**Resolved:** commit `9f4d63e` — re-indented with tabs. See `03-REVIEW-FIX.md`.
+
 ### IN-02: Listen-page `<h1>` uses a raw magic value instead of a shared token
 
 **File:** `website/src/pages/listen/[slug].astro:39`
 **Issue:** `class="text-[40px] leading-[1.05] font-display font-extrabold mt-2"` hardcodes `40px` via an arbitrary Tailwind value. The UI-SPEC explicitly frames this as "reuses the existing Headline role, no new size" — if that role has a named utility/token elsewhere in the design system, this call site should reference it rather than restate the literal value, to avoid the two drifting independently if the Headline role is ever retuned.
 **Fix:** If a `text-headline` (or equivalent) utility/token exists from Phase 2, use it here instead of `text-[40px]`.
+
+**Resolved:** commit `45a925c` — no such token existed yet; added `--text-headline: 2.5rem` to `global.css`'s `@theme` block and switched the listen-page `<h1>` to `text-headline`. See `03-REVIEW-FIX.md`.
 
 ### IN-03: Redundant dictionary lookup in `DiscographyCard.astro`
 
@@ -144,6 +160,8 @@ const { release } = Astro.props;
 	})
 }
 ```
+
+**Resolved:** commit `545d5f7` — `icon` hoisted once per iteration. See `03-REVIEW-FIX.md`.
 
 ---
 
