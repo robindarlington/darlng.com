@@ -4,16 +4,16 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 current_phase_name: Newsletter Fan Capture
-status: planning
-stopped_at: Completed 03-03-PLAN.md
-last_updated: "2026-08-08T14:25:52.148Z"
+status: executing
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-08-08T20:54:10.058Z"
 last_activity: 2026-08-08
 last_activity_desc: Phase 3 complete, transitioned to Phase 04
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 10
+  completed_plans: 8
 ---
 
 # Project State
@@ -28,11 +28,11 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 ## Current Position
 
 Phase: 04 — Newsletter Fan Capture
-Plan: Not started
-Status: Ready to plan
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-08-08 — Phase 3 complete, transitioned to Phase 04
 
-Progress: [██████████] 100%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
@@ -67,6 +67,7 @@ Progress: [██████████] 100%
 | Phase 03 P01 | 16min | 2 tasks | 5 files |
 | Phase 03-core-fan-experience P02 | 9min | 2 tasks | 3 files |
 | Phase 03 P03 | 22min | 3 tasks | 2 files |
+| Phase 04-newsletter-fan-capture P01 | 55 min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Facade panel placed as a sibling of the hero's left content column, reusing the existing flex-col-at-mobile/grid-at-lg wrapper for per-breakpoint placement (no duplicate markup)
 - [Phase ?]: Task 2 (FAN-03 audit) and Task 3 (browser sweep) required zero code changes and produced no commits — verification-only tasks that passed cleanly on the first run.
 - [Phase ?]: Fallback-glyph counting distinguished DiscographyCard's icon-row ExternalLink (size 20) from PlatformButton's fallback slot (size 24) and its always-present trailing chevron (size 18) via rendered SVG width/height, avoiding a substring-count conflation.
+- [Phase ?]: novalidate added to newsletter form — Native HTML5 type=email constraint validation silently swallowed the submit event for some invalid input before the custom regex validator could run
+- [Phase ?]: Input+button flex-row nested in its own wrapper, status region as a form-level sibling — Matches UI-SPEC's Section Anatomy diagram; a form-level flex-row would pull the status region into the same row at md: and up
 
 ### Pending Todos
 
@@ -114,6 +117,6 @@ Content that must be gathered before Phase 2 can complete:
 
 ## Session Continuity
 
-Last session: 2026-08-08T13:52:47.363Z
-Stopped at: Completed 03-03-PLAN.md
+Last session: 2026-08-08T20:54:10.049Z
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
