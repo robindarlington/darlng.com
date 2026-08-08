@@ -98,3 +98,8 @@ screenshots: captured (/tmp/darlng-phase3, 375/768/1440, pre/post facade click)
 - `website/src/styles/global.css`
 - `.planning/phases/03-core-fan-experience/03-UI-SPEC.md`
 - Screenshots: `home-375.png`, `home-768.png`, `full-1440.png`, `gapfix-375.png`, `catalog-1440.png`, `listen-eseriani-375.png`, `listen-eseriani-1440.png`, `facade-post-1440.png`
+
+> **Orchestrator resolution (2026-08-08):**
+> - **Fix 1 (Deezer heart) — FALSE POSITIVE, no change.** The built HTML's path is byte-identical to `simple-icons@16.28.0` `siDeezer.path` (verified via node against dist/index.html). Deezer's official 2023 rebrand is a heart composed of equalizer bars — the rendered heart IS the current correct brand mark. The audit's "soundwave" expectation matched the pre-2023 logo.
+> - **Fix 2 (viewBox) — RESOLVED by package contract.** simple-icons normalizes all icons to a 24×24 viewBox; the fixed `viewBox="0 0 24 24"` in BrandIcon.astro is correct for every mapped icon. Rendered-pixel evidence: all 8 brand marks visually confirmed in phase screenshots (header socials + platform rows).
+> - **Fix 3 (icon-verification checklist) — ADOPTED.** Future phases touching BrandIcon/platform-icons.ts must include a rendered-glyph screenshot check; noted for Phases 4–5.
