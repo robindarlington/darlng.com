@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Infrastructure & Deploy** - Scaffold Astro project, wire Coolify deploy, confirm darlng.com resolves, and get Listmonk running (completed 2026-08-06)
 - [x] **Phase 2: Brand, Data & Base Layout** - Establish WCAG-verified dark palette, base layout, and typed releases.ts data model (completed 2026-08-07)
-- [ ] **Phase 3: Core Fan Experience** - Build hero, discography, listen-everywhere pages, and social follow links
+- [x] **Phase 3: Core Fan Experience** - Build hero, discography, listen-everywhere pages, and social follow links (completed 2026-08-08)
 - [ ] **Phase 4: Newsletter Fan Capture** - Wire NewsletterForm to Listmonk with CORS, ALTCHA, and double opt-in
 - [ ] **Phase 5: SEO & Launch Polish** - Per-page Open Graph, sitemap, robots.txt, and Core Web Vitals green
 
@@ -138,6 +138,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Infrastructure & Deploy | 2/2 | Complete    | 2026-08-06 |
 | 2. Brand, Data & Base Layout | 2/2 | Complete    | 2026-08-07 |
-| 3. Core Fan Experience | 3/3 | In Progress|  |
+| 3. Core Fan Experience | 3/3 | Complete    | 2026-08-08 |
 | 4. Newsletter Fan Capture | 0/? | Not started | - |
 | 5. SEO & Launch Polish | 0/? | Not started | - |
