@@ -1,0 +1,59 @@
+---
+import { Picture } from 'astro:assets';
+import { Play } from '@lucide/astro';
+
+interface Props {
+  videoId: string;
+  titleForA11y: string;
+  thumbnail: ImageMetadata;
+}
+
+const { videoId, titleForA11y, thumbnail } = Astro.props;
+---
+
+<div class="facade-container relative aspect-video w-full overflow-hidden rounded-card">
+	<Picture
+		src={thumbnail}
+		formats={['avif', 'webp']}
+		widths={[480, 720, 960]}
+		sizes="(min-width: 1024px) 512px, (min-width: 768px) 480px, 100vw"
+		fit="cover"
+		loading="lazy"
+		alt=""
+		class="absolute inset-0 h-full w-full object-cover object-[50%_22%]"
+	/>
+	<div
+		class="absolute inset-0"
+		aria-hidden="true"
+		style={`background: color-mix(in oklch, var(--color-bg) 35%, transparent);`}
+	>
+	</div>
+	<button
+		type="button"
+		data-facade-trigger
+		aria-label={`Play ${titleForA11y}`}
+		class="facade-play absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-full bg-accent text-bg size-[72px] lg:size-[88px] transition duration-200 hover:scale-105 active:scale-95"
+	>
+		<Play size={28} class="translate-x-[2px] lg:hidden" fill="currentColor" />
+		<Play size={34} class="translate-x-[2px] hidden lg:block" fill="currentColor" />
+	</button>
+</div>
+
+<script define:vars={{ videoId, titleForA11y }}>
+	const container = document.querySelector('.facade-container');
+	const trigger = container?.querySelector('[data-facade-trigger]');
+	trigger?.addEventListener(
+		'click',
+		() => {
+			const iframe = document.createElement('iframe');
+			iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+			iframe.title = titleForA11y;
+			iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+			iframe.allowFullscreen = true;
+			iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+			iframe.className = 'absolute inset-0 h-full w-full border-0';
+			container?.replaceChildren(iframe);
+		},
+		{ once: true }
+	);
+</script>
