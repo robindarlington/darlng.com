@@ -178,7 +178,13 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
           aria-describedby="newsletter-status"
           aria-invalid={isValidationError ? 'true' : undefined}
           value={email}
-          onInput={(e) => setEmail((e.target as HTMLInputElement).value)}
+          onInput={(e) => {
+            setEmail((e.target as HTMLInputElement).value);
+            // Clear a stale error as soon as the user starts correcting the
+            // field, rather than leaving the red border/message visible
+            // (unchanged) until the next submit attempt.
+            if (isValidationError || isNetworkError) setStatus('idle');
+          }}
           disabled={inputDisabled}
           class={`w-full md:flex-1 min-h-11 rounded-card bg-surface text-text placeholder:text-text-muted px-4 focus:border-[1.5px] focus:border-accent ${inputBorderClass}`}
         />
