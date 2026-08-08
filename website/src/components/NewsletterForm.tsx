@@ -29,10 +29,27 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
   // `handleSubmit` invocation fired before that commit (rapid double-click,
   // double-tap, or repeated Enter while the first request is in flight).
   const inFlightRef = useRef(false);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const statusRegionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Move keyboard focus to the source of the error on entry, so a
+  // keyboard/screen-reader user whose focus has drifted away from the form
+  // (e.g. tabbed past it while `submitting`) doesn't rely on `aria-live`
+  // alone to notice the change. Validation errors focus the input itself
+  // (its `aria-describedby` already ties it to the status message);
+  // network errors aren't tied to a specific field, so focus the status
+  // region instead.
+  useEffect(() => {
+    if (status === 'error-validation') {
+      emailInputRef.current?.focus();
+    } else if (status === 'error-network') {
+      statusRegionRef.current?.focus();
+    }
+  }, [status]);
 
   async function handleSubmit(e: Event) {
     e.preventDefault();
@@ -150,6 +167,7 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
       </div>
       <div class="md:flex md:flex-row md:items-start md:gap-3">
         <input
+          ref={emailInputRef}
           type="email"
           id="newsletter-email"
           name="email"
@@ -174,9 +192,11 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
         </button>
       </div>
       <div
+        ref={statusRegionRef}
         id="newsletter-status"
         role="status"
         aria-live="polite"
+        tabindex={-1}
         // 72px / 3 lines, not the 48px/2-line figure in 04-UI-SPEC.md — that spec
         // value undercounts: the success state renders two separate <p> elements,
         // and the second one alone wraps to 2 lines at 343px mobile width per the
