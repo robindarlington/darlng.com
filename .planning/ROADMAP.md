@@ -92,7 +92,7 @@ Plans:
 Plans:
 
 - [x] 03-01-PLAN.md — Tracer: full-bleed Eseriani hero (LCP `<Picture>`, scrim, CTA pills) wired end-to-end through `platform-icons.ts` and `PlatformButton.astro` to four `getStaticPaths`-generated `/listen/[slug]` pages, browser-verified at 375/768/1440
-- [ ] 03-02-PLAN.md — Zero-JS-until-click `YouTubeFacade.astro` mounted in the hero: local Sharp thumbnail, accent play button, click-injected `youtube-nocookie` embed, proven third-party-request-free pre-click
+- [x] 03-02-PLAN.md — Zero-JS-until-click `YouTubeFacade.astro` mounted in the hero: local Sharp thumbnail, accent play button, click-injected `youtube-nocookie` embed, proven third-party-request-free pre-click
 - [ ] 03-03-PLAN.md — "The Catalog" discography grid (`DiscographyCard.astro`), FAN-03 follow-anchor audit plus the phase-wide `target="_blank"`/`rel` invariant gate, and the full-phase browser sweep
 
 **UI hint**: yes

@@ -24,7 +24,7 @@ Requirements for initial release. Each maps to roadmap phases. (All P1 table sta
 ### Hero & Music
 
 - [x] **HERO-01**: Cinematic full-bleed hero featuring the latest release (*Eseriani*, 2026) with artwork, release title, and primary streaming CTAs (Spotify, Apple Music, YouTube)
-- [ ] **HERO-02**: Spotify player embedded for the latest release, above-the-fold WITHOUT `loading="lazy"` (facade pattern to protect LCP)
+- [x] **HERO-02**: Spotify player embedded for the latest release, above-the-fold WITHOUT `loading="lazy"` (facade pattern to protect LCP)
 - [ ] **MUSIC-01**: Discography section presenting the back catalog (Randevu 2024, Brave 2020, Open Wide 2019) as a grid with cover art, title, and year
 - [ ] **MUSIC-02**: Each back-catalog release links out to its streaming platforms via clean native links (no embeds for back catalog)
 
@@ -88,7 +88,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BRAND-03 | Phase 2 | Complete |
 | BRAND-04 | Phase 2 | Complete |
 | HERO-01 | Phase 3 | Complete |
-| HERO-02 | Phase 3 | Pending |
+| HERO-02 | Phase 3 | Complete |
 | MUSIC-01 | Phase 3 | Pending |
 | MUSIC-02 | Phase 3 | Pending |
 | LISTEN-01 | Phase 3 | Complete |
