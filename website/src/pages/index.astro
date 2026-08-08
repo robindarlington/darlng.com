@@ -110,6 +110,11 @@ const { youtubeEmbed } = latestRelease;
 				<div class="mt-6">
 					<NewsletterForm client:visible listmonkUrl={listmonkUrl} listUuid={listmonkListUuid} />
 				</div>
+				<noscript>
+					<p class="text-sm text-text-muted mt-3">
+						This form needs JavaScript. Find DARLNG on Spotify, Instagram, or TikTok below.
+					</p>
+				</noscript>
 				<p id="newsletter-privacy" class="text-sm text-text-muted mt-3">No spam. Unsubscribe anytime.</p>
 			</section>
 		)

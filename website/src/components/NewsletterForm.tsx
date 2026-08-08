@@ -17,6 +17,8 @@ interface Props {
   listUuid: string;
 }
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
   const [email, setEmail] = useState('');
   const [honeypot, setHoneypot] = useState('');
@@ -29,8 +31,22 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
 
   async function handleSubmit(e: Event) {
     e.preventDefault();
-    setStatus('submitting');
 
+    if (!EMAIL_PATTERN.test(email)) {
+      setStatus('error-validation');
+      return;
+    }
+
+    if (honeypot) {
+      // Bot detected: silently render the exact same success UI as a genuine
+      // signup, with no network call and no separate visual state — the
+      // caught bot gains no signal that it was caught (04-UI-SPEC.md
+      // Honeypot Spec).
+      setStatus('success');
+      return;
+    }
+
+    setStatus('submitting');
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000);
 
@@ -46,29 +62,55 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
       // Real Listmonk never distinguishes new vs. already-subscribed at this
       // endpoint (verified from cmd/public.go, see 04-RESEARCH.md Common
       // Pitfalls #2) — any 2xx is success. Never branch on `has_optin` or a
-      // 409 status; neither signal means what it looks like it means.
+      // 409 status; neither signal means what it looks like it means. Echo's
+      // error responses use a `{"message": ...}` envelope, not `{"data": ...}`
+      // — don't attempt to parse a non-2xx body as the success shape.
       if (!res.ok) {
         setStatus('error-network');
         return;
       }
 
-      setStatus('success');
+      const json = await res.json().catch(() => null);
+      // `already_subscribed` is a testing artifact this project's local mock
+      // invents — real Listmonk's public endpoint returns an identical 200
+      // for new and repeat subscribers, so this branch is reachable only
+      // against the local mock. A parse failure falls through to success,
+      // never to an error.
+      if (json?.data?.already_subscribed === true) {
+        setStatus('already-subscribed');
+      } else {
+        setStatus('success');
+      }
     } catch {
+      // Covers AbortError (8s timeout) and TypeError (DNS/connection/CORS
+      // failure) — both collapse to the single network/API error state.
       clearTimeout(timeoutId);
       setStatus('error-network');
     }
   }
 
+  const isSubmitting = status === 'submitting';
   const isSuccess = status === 'success';
-  const inputDisabled = status === 'submitting' || isSuccess;
-  const buttonDisabled = !mounted || status === 'submitting' || isSuccess;
+  const isAlreadySubscribed = status === 'already-subscribed';
+  const isValidationError = status === 'error-validation';
+  const isNetworkError = status === 'error-network';
+
+  const inputDisabled = isSubmitting || isSuccess || isAlreadySubscribed;
+  const buttonDisabled = !mounted || isSubmitting || isSuccess || isAlreadySubscribed;
 
   let buttonLabel = 'Get the drop';
-  if (status === 'submitting') buttonLabel = 'Sending…';
+  if (isSubmitting) buttonLabel = 'Sending…';
   if (isSuccess) buttonLabel = "You're in ✓";
+  if (isAlreadySubscribed) buttonLabel = 'Already subscribed';
+
+  let statusColorClass = '';
+  if (isSuccess) statusColorClass = ' text-accent';
+  if (isValidationError || isNetworkError) statusColorClass = ' text-error';
+
+  const inputBorderClass = isValidationError ? 'border-[1.5px] border-error' : 'border border-white/10';
 
   return (
-    <form class="max-w-lg" onSubmit={handleSubmit}>
+    <form class="max-w-lg" onSubmit={handleSubmit} novalidate>
       <label for="newsletter-email" class="sr-only">
         Email address
       </label>
@@ -94,10 +136,11 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
           required
           placeholder="you@email.com"
           aria-describedby="newsletter-status"
+          aria-invalid={isValidationError ? 'true' : undefined}
           value={email}
           onInput={(e) => setEmail((e.target as HTMLInputElement).value)}
           disabled={inputDisabled}
-          class="w-full md:flex-1 min-h-11 rounded-card bg-surface text-text placeholder:text-text-muted border border-white/10 px-4 focus:border-[1.5px] focus:border-accent"
+          class={`w-full md:flex-1 min-h-11 rounded-card bg-surface text-text placeholder:text-text-muted px-4 focus:border-[1.5px] focus:border-accent ${inputBorderClass}`}
         />
         <button
           type="submit"
@@ -112,7 +155,7 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
         id="newsletter-status"
         role="status"
         aria-live="polite"
-        class={`min-h-12 mt-2 w-full text-base${isSuccess ? ' text-accent' : ''}`}
+        class={`min-h-12 mt-2 w-full text-base${statusColorClass}`}
       >
         {isSuccess && (
           <>
@@ -120,6 +163,9 @@ export default function NewsletterForm({ listmonkUrl, listUuid }: Props) {
             <p>We just sent a confirmation link — click it and you're on the list.</p>
           </>
         )}
+        {isAlreadySubscribed && <p>You're already on the list.</p>}
+        {isValidationError && <p>Enter a valid email address.</p>}
+        {isNetworkError && <p>Something went wrong. Try again in a moment.</p>}
       </div>
     </form>
   );
