@@ -50,21 +50,20 @@ const iconPlatforms = release.platforms.slice(0, 3);
 
 	<div class="flex items-center gap-1 mt-4">
 		{
-			iconPlatforms.map((link) => (
-				<a
-					href={link.url}
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label={`Listen to ${release.title} on ${link.label}`}
-					class="flex items-center justify-center min-h-11 min-w-11 rounded-full text-text-muted transition-colors duration-150 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-95"
-				>
-					{platformIcons[link.platform] ? (
-						<BrandIcon icon={platformIcons[link.platform]!} class="w-5 h-5" />
-					) : (
-						<ExternalLink size={20} />
-					)}
-				</a>
-			))
+			iconPlatforms.map((link) => {
+				const icon = platformIcons[link.platform];
+				return (
+					<a
+						href={link.url}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={`Listen to ${release.title} on ${link.label}`}
+						class="flex items-center justify-center min-h-11 min-w-11 rounded-full text-text-muted transition-colors duration-150 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-95"
+					>
+						{icon ? <BrandIcon icon={icon} class="w-5 h-5" /> : <ExternalLink size={20} />}
+					</a>
+				);
+			})
 		}
 	</div>
 
