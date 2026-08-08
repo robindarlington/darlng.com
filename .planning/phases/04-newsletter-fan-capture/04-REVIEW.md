@@ -16,6 +16,10 @@ findings:
   info: 4
   total: 10
 status: issues_found
+fixed_at: 2026-08-08T23:35:00Z
+fixed_status: all_fixed
+findings_fixed: 10
+findings_skipped: 0
 ---
 
 # Phase 04: Code Review Report
@@ -255,6 +259,35 @@ it's a pattern that would matter if this file were ever adapted beyond local/CI 
 
 ---
 
+## Resolutions
+
+All 10 findings (6 warnings + 4 info) fixed and committed atomically. Verified: `astro check` +
+contrast checks green, env-set and env-unset builds both green (newsletter section present/absent
+correctly), and IN-01/IN-02 additionally verified live in a real browser via `agent-browser`.
+
+| ID | Status | Commit | Summary |
+|----|--------|--------|---------|
+| WR-01 | fixed | `9fc803d` | Added a synchronous `inFlightRef` reentrancy guard checked at the top of `handleSubmit`, set/reset around every terminal branch (honeypot, validation, success/already-subscribed/error via `finally`) |
+| WR-02 | fixed | `0ed2643` | Honeypot check now runs first, independent of email validity; added a randomized 400-900ms delay before the honeypot's `setStatus('success')` to mask the timing side-channel against a genuine network round trip |
+| WR-03 | fixed | `f2573d2` | Added `website/src/env.d.ts` declaring `PUBLIC_LISTMONK_URL`/`PUBLIC_LISTMONK_LIST_UUID` as `string \| undefined`; `astro sync` + `tsc --noEmit` confirm the ambient `any` fallback is gone |
+| WR-04 | fixed | `a1ef09e` | `mock-listmonk.mjs` now binds `server.listen(PORT, '127.0.0.1', ...)`; verified via `lsof` the socket only listens on `127.0.0.1`, not `0.0.0.0` |
+| WR-05 | fixed | `7377db7` | `index.astro` now normalizes `PUBLIC_LISTMONK_URL` with `.replace(/\/+$/, '')` before it reaches the island, mirroring the fail-fast pattern used for `ctaLinks` |
+| WR-06 | fixed | `c608ff2` | Added an inline comment at the `min-h-18` call site explaining the 72px/3-line math, and amended `04-UI-SPEC.md`'s "State message region" section with a dated (2026-08-08) correction note + updated CSS reference block (48px → 72px) |
+| IN-01 | fixed | `4879512` | Live-verified via `agent-browser` at 768px and 1440px (both env-configured against the local mock) that the second success paragraph renders as a single 24px line at those widths; applied `md:min-h-12` and re-confirmed zero CLS (identical absolute document `top` for the privacy note before/after the idle→success transition) at both breakpoints |
+| IN-02 | fixed | `b057427` | Added `emailInputRef`/`statusRegionRef` + a `status`-keyed `useEffect` that focuses the email input on `error-validation` and the (now `tabindex={-1}`) status region on `error-network`; confirmed live via `agent-browser` (`document.activeElement.id === "newsletter-email"` after a validation error) |
+| IN-03 | fixed | `85ca827` | Email `onInput` now resets `status` to `'idle'` when leaving `error-validation`/`error-network`, clearing the stale border/message as soon as the user starts correcting the field |
+| IN-04 | fixed | `933ff57` | Added a 16KB request-body size guard (`413` + `req.destroy()` on overflow) and `res.setHeader('Vary', 'Origin')` alongside the existing CORS header in `mock-listmonk.mjs`; both behaviors verified with `curl` (200 for a normal body, 413 for an oversized one, `Vary: Origin` present on the 200 response) |
+
+**Post-fix gate verification (all green):**
+- `PUBLIC_LISTMONK_URL=... PUBLIC_LISTMONK_LIST_UUID=... npm run build` — succeeds, `dist/index.html` contains the newsletter section
+- `npm run build` (env unset) — succeeds, `dist/index.html` does NOT contain `id="newsletter"`
+- `npm run check` (astro check + contrast) — 0 errors, 0 warnings, 1 pre-existing unrelated hint (`YouTubeFacade.astro` inline script), all 9 contrast pairs PASS
+- State sweep re-run at 375px (idle / validation-error / success) with focus-management spot check — screenshots at `/tmp/darlng-phase4/postfix-375-idle.png`, `/tmp/darlng-phase4/postfix-375-validation-error.png`, `/tmp/darlng-phase4/postfix-375-success.png`
+
+---
+
 _Reviewed: 2026-08-08T23:25:00Z_
 _Reviewer: Claude (gsd-code-reviewer)_
 _Depth: standard_
+_Fixed: 2026-08-08T23:35:00Z_
+_Fixer: Claude (gsd-code-fixer)_
