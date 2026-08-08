@@ -40,7 +40,7 @@ const { release } = Astro.props;
 			<p class="text-base font-semibold text-text-muted mt-4">{release.artistLine} &middot; {release.year}</p>
 			<p class="text-base text-text mt-4">Listen to {release.title} everywhere — pick your platform.</p>
 
-			<nav aria-label={`Where to listen to ${release.title}`} class="w-full mt-8">
+			<nav aria-label={`Listen to ${release.title} on these platforms`} class="w-full mt-8">
 				<ul class="flex flex-col gap-3">
 					{
 						release.platforms.map((link) => (
