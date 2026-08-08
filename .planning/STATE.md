@@ -4,16 +4,16 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 current_phase_name: Newsletter Fan Capture
-status: executing
-stopped_at: Completed 04-02-PLAN.md
-last_updated: "2026-08-08T20:57:34.091Z"
+status: verifying
+stopped_at: Completed 04-03-PLAN.md
+last_updated: "2026-08-08T21:15:32.738Z"
 last_activity: 2026-08-08
 last_activity_desc: Phase 3 complete, transitioned to Phase 04
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 10
-  completed_plans: 9
+  completed_plans: 10
 ---
 
 # Project State
@@ -29,10 +29,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 Phase: 04 — Newsletter Fan Capture
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-08-08 — Phase 3 complete, transitioned to Phase 04
 
-Progress: [█████████░] 90%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -69,6 +69,7 @@ Progress: [█████████░] 90%
 | Phase 03 P03 | 22min | 3 tasks | 2 files |
 | Phase 04-newsletter-fan-capture P01 | 55 min | 2 tasks | 5 files |
 | Phase 04 P02 | 15min | 2 tasks | 1 files |
+| Phase 04 P03 | 15min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Input+button flex-row nested in its own wrapper, status region as a form-level sibling — Matches UI-SPEC's Section Anatomy diagram; a form-level flex-row would pull the status region into the same row at md: and up
 - [Phase ?]: DEPLOY.md Section 5: Listmonk native Trusted URLs CORS middleware recommended as primary over proxy-level CORS, correcting an earlier STATE.md decision that predated the source read
 - [Phase ?]: DEPLOY.md documents ALTCHA does not protect /api/public/subscription; honeypot + double opt-in + proxy rate limiting are the real, documented mitigations
+- [Phase ?]: Fixed real CLS bug: status region min-h-12 (48px) was too small for the actual 3-line success message at 375px; bumped to min-h-18 (72px), re-verified byte-identical offsetTop. — Caught by the browser evidence sweep's CLS assertion; the UI-SPEC's own reserved-height calculation assumed only 2 lines total for the success message, but the second sentence itself wraps to 2 lines at mobile width.
+- [Phase ?]: Documented (not silently passed) that the env-unset production build still ships an unreferenced NewsletterForm*.js chunk to disk — proven via 3 independent tests to be an inherent Astro static-compiler limitation, not fixable via JS conditional restructuring. Verified the substantive safety property instead: zero HTML anywhere references the chunk, so no browser ever loads it. — T-04-11's actual threat (a fan submitting into a broken form) requires browser-observable exposure, which does not exist here. A custom build plugin to physically strip the chunk from disk would be new build infrastructure disproportionate to a cosmetic disk-hygiene gap, and is an architectural decision for a human to weigh, not a silent mid-plan addition.
 
 ### Pending Todos
 
@@ -120,6 +123,6 @@ Content that must be gathered before Phase 2 can complete:
 
 ## Session Continuity
 
-Last session: 2026-08-08T20:57:34.080Z
-Stopped at: Completed 04-02-PLAN.md
+Last session: 2026-08-08T21:15:32.724Z
+Stopped at: Completed 04-03-PLAN.md
 Resume file: None
