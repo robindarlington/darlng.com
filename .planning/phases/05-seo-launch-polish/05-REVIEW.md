@@ -23,6 +23,8 @@ findings:
   info: 5
   total: 8
 status: issues_found
+fixed_at: 2026-08-09T12:41:00Z
+resolution_status: fixed_with_accepted_risks
 ---
 
 # Phase 5: Code Review Report
@@ -31,6 +33,11 @@ status: issues_found
 **Depth:** standard
 **Files Reviewed:** 13
 **Status:** issues_found
+
+**Fixed:** 2026-08-09T12:41:00Z — all 3 warnings and 3 of 5 info findings fixed
+(WR-01, WR-02, WR-03, IN-01, IN-02, IN-04); IN-03 and IN-05 accepted as
+low-value/already-documented risk (see their Resolution notes below). See
+per-finding **Resolution:** notes for commit hashes and verification detail.
 
 ## Summary
 
@@ -82,6 +89,10 @@ suffix (the title already contains the brand):
 or accept an explicit `imageAlt` prop with its own default, decoupled from the
 page `<title>` entirely.
 
+**Resolution:** Fixed — commit `d652bad`. `og:image:alt` now uses `title` verbatim
+(no suffix). Verified in built HTML across all 6 pages (home, 4 listen pages, 404):
+no page doubles "DARLNG".
+
 ### WR-02: `generate-assets.mjs`'s release list can silently drift from `releases.ts`
 
 **File:** `website/scripts/generate-assets.mjs:149-186`
@@ -111,6 +122,14 @@ if (RELEASE_CARDS.length !== EXPECTED_RELEASE_COUNT) {
 or, more robustly, add a `check:og-assets` npm script that greps `releases.ts`
 slugs and diffs them against `RELEASE_CARDS` / `public/og/*.png`, run alongside
 `npm run check`.
+
+**Resolution:** Fixed — commit `6dac3bd`. Added `assertReleaseCardsMatchSource()`,
+called at the top of `main()`, which reads `releases.ts` as text, extracts every
+`slug: '...'` occurrence via regex, and throws a descriptive error listing exactly
+which slugs are missing on either side if `RELEASE_CARDS` and `releases.ts` ever
+diverge. Verified by temporarily corrupting a slug in `RELEASE_CARDS` and
+confirming the script throws with the expected diff message, then reverting and
+confirming a clean run.
 
 ### WR-03: Hero `Picture` and LCP `getImage` preload share no single source of truth
 
@@ -156,6 +175,12 @@ const heroAvif = await getImage({ src: latestRelease.cover, format: 'avif', ...H
 // <Picture src={latestRelease.cover} formats={['avif', 'webp']} sizes="100vw" priority {...HERO_IMAGE_PARAMS} .../>
 ```
 
+**Resolution:** Fixed — commit `e82892c`. Added `src/data/hero-image.ts` exporting
+`HERO_IMAGE_PARAMS`, consumed via spread by both the `getImage` preload call and
+the hero `<Picture>` in `index.astro`. Verified in built `dist/index.html`: the
+preload `imagesrcset` and the `<picture>`'s avif `<source srcset>` are
+byte-identical URLs.
+
 ## Info
 
 ### IN-01: `og:type="music.album"` is under-specified per OGP
@@ -171,6 +196,11 @@ metadata.
 **Fix:** Add a `music:release_date` meta (e.g. `content={`${release.year}`}`) via
 an optional Layout prop, similar to how `musician` is threaded through today.
 
+**Resolution:** Fixed — commit `06f0109`. Added an optional `releaseDate` prop to
+`Layout.astro` (rendered as `music:release_date` when set), threaded from
+`listen/[slug].astro` as `` `${release.year}` ``. Verified in built HTML across
+all 4 listen pages: correct year emitted per release (2026/2024/2020/2019).
+
 ### IN-02: LCP preload `<link>` omits `type="image/avif"`
 
 **File:** `website/src/layouts/Layout.astro:77-85`
@@ -183,6 +213,9 @@ for that browser cohort and giving them no LCP benefit from the preload at all.
 **Fix:** Add `type="image/avif"` to the preload link so capability-aware browsers
 skip it cleanly, or preload the `webp` variant instead/in addition, weighing
 against current avif browser support.
+
+**Resolution:** Fixed — commit `641e5f3`. Added `type="image/avif"` to the
+preload `<link>` in `Layout.astro`. Verified in built `dist/index.html`.
 
 ### IN-03: OG card PNGs are large for their format
 
@@ -197,6 +230,12 @@ win given the phase already tuned image quality elsewhere (hero/catalog
 **Fix:** Consider `png({ compressionLevel: 9, palette: true })` or switching the
 OG card output to JPEG/WebP if any target platform's OG scraper is known to
 prefer it.
+
+**Resolution:** Accepted, not implemented. Social platforms accept OG images far
+larger than the current 800KB–1.1MB output; this is a file-size nit with no
+functional or ranking impact, and not worth the compression-tuning/format-switch
+tradeoff analysis right now. Revisit if OG image load time ever becomes a
+measured problem.
 
 ### IN-04: `main()` catch handler discards the stack trace
 
@@ -214,6 +253,9 @@ error) can be hard to localize to a specific step without the stack trace.
 **Fix:** `console.error(err);` (or `console.error(err.stack ?? err.message)`) to
 retain full diagnostics on build failure.
 
+**Resolution:** Fixed — commit `a2aa7cb`. `main().catch()` now logs `console.error(err)`
+(full error object, including stack) instead of `err.message` alone.
+
 ### IN-05: No Content-Security-Policy header in `nginx.conf`
 
 **File:** `website/nginx.conf:23-27`
@@ -227,6 +269,10 @@ once to the `server{}` block for all three location blocks to inherit it.
 **Fix:** Add a CSP scoped to what the site actually loads (self + Google's
 YouTube-nocookie iframe origin + Fontsource-inlined fonts are all same-origin
 already), or explicitly note in a comment that CSP was considered and deferred.
+
+**Resolution:** Accepted, not implemented — already a documented, deliberate
+Phase-5-deferred risk (T-03-05). No new action needed here; see that decision
+record for the accepted-risk rationale rather than duplicating it.
 
 ---
 
