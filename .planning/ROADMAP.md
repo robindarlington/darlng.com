@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Brand, Data & Base Layout** - Establish WCAG-verified dark palette, base layout, and typed releases.ts data model (completed 2026-08-07)
 - [x] **Phase 3: Core Fan Experience** - Build hero, discography, listen-everywhere pages, and social follow links (completed 2026-08-08)
 - [x] **Phase 4: Newsletter Fan Capture** - Wire NewsletterForm to Listmonk with CORS, ALTCHA, and double opt-in (completed 2026-08-08)
-- [ ] **Phase 5: SEO & Launch Polish** - Per-page Open Graph, sitemap, robots.txt, and Core Web Vitals green
+- [x] **Phase 5: SEO & Launch Polish** - Per-page Open Graph, sitemap, robots.txt, and Core Web Vitals green (completed 2026-08-09)
 
 ## Phase Details
 
@@ -152,4 +152,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Brand, Data & Base Layout | 2/2 | Complete    | 2026-08-07 |
 | 3. Core Fan Experience | 3/3 | Complete    | 2026-08-08 |
 | 4. Newsletter Fan Capture | 3/3 | Complete    | 2026-08-08 |
-| 5. SEO & Launch Polish | 3/3 | In Progress|  |
+| 5. SEO & Launch Polish | 3/3 | Complete    | 2026-08-09 |
