@@ -39,8 +39,8 @@ Requirements for initial release. Each maps to roadmap phases. (All P1 table sta
 
 - [x] **SEO-01**: Per-page Open Graph + Twitter Card meta (`og:title`, `og:description`, `og:image` 1200×630 release artwork at absolute production URLs, `og:type` music.album where applicable)
 - [x] **SEO-02**: Sitemap (`@astrojs/sitemap`) and robots.txt generated
-- [ ] **PERF-01**: Core Web Vitals pass (LCP <2.5s, CLS <0.1, TBT <200ms) verified via Lighthouse before ship — hero image via Sharp/srcset, fonts preloaded, below-fold embeds lazy-loaded
-- [ ] **PERF-02**: Cover art and press images optimized with Sharp (responsive `srcset`, fixed dimensions to prevent CLS)
+- [x] **PERF-01**: Core Web Vitals pass (LCP <2.5s, CLS <0.1, TBT <200ms) verified via Lighthouse before ship — hero image via Sharp/srcset, fonts preloaded, below-fold embeds lazy-loaded
+- [x] **PERF-02**: Cover art and press images optimized with Sharp (responsive `srcset`, fixed dimensions to prevent CLS)
 
 ## v2 Requirements
 
@@ -97,8 +97,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FAN-03 | Phase 3 | Complete |
 | SEO-01 | Phase 5 | Complete |
 | SEO-02 | Phase 5 | Complete |
-| PERF-01 | Phase 5 | Pending |
-| PERF-02 | Phase 5 | Pending |
+| PERF-01 | Phase 5 | Complete |
+| PERF-02 | Phase 5 | Complete |
 
 **Coverage:**
 

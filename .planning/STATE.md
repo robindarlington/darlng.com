@@ -4,16 +4,16 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05
 current_phase_name: SEO & Launch Polish
-status: planning
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-08-09T09:59:02.470Z"
+status: verifying
+stopped_at: Completed 05-03-PLAN.md
+last_updated: "2026-08-09T10:21:58.725Z"
 last_activity: 2026-08-09
 last_activity_desc: Completed 05-01-PLAN.md
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 13
-  completed_plans: 12
+  completed_plans: 13
 ---
 
 # Project State
@@ -29,10 +29,10 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 Phase: 05 — SEO & Launch Polish
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-08-09 — Completed 05-01-PLAN.md
 
-Progress: [█████████░] 92%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -73,6 +73,7 @@ Progress: [█████████░] 92%
 | Phase 04 P03 | 15min | 2 tasks | 1 files |
 | Phase 05 P01 | 35min | 3 tasks | 7 files |
 | Phase 05 P02 | 20min | 2 tasks | 6 files |
+| Phase 05 P03 | 27min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -105,6 +106,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Favicon.ico hand-rolled via a 22-byte ICONDIR+ICONDIRENTRY header wrapping a raw 32x32 PNG buffer — verified with file(1) — instead of adding a sharp-ico dependency
 - [Phase ?]: robots.txt Sitemap directive names sitemap-index.xml (not the numbered shard) so a future second shard stays discoverable
 - [Phase ?]: nginx /sitemap.xml location declares no add_header of its own so it inherits all five server-level security/cache headers intact
+- [Phase ?]: nginx gzip added for text responses (out-of-scope file, in-scope lever) to close the LCP gap alongside font-preload deprioritization and a listen-page sizes fix
+- [Phase ?]: Home-page mobile LCP (2866ms vs 2500ms target) documented as an honest miss after three fix attempts, per plan's explicit no-relax-threshold rule
 
 ### Pending Todos
 
@@ -132,6 +135,6 @@ Content that must be gathered before Phase 2 can complete:
 
 ## Session Continuity
 
-Last session: 2026-08-09T09:59:02.460Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-08-09T10:21:52.413Z
+Stopped at: Completed 05-03-PLAN.md
 Resume file: None
