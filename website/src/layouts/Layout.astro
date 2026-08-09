@@ -78,6 +78,7 @@ const pageUrl = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
 				<link
 					rel="preload"
 					as="image"
+					type="image/avif"
 					imagesrcset={preloadImage.srcset}
 					imagesizes={preloadImage.sizes}
 					fetchpriority="high"
