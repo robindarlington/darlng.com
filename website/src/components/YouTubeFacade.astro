@@ -15,10 +15,15 @@ const { videoId, titleForA11y, thumbnail } = Astro.props;
 	<Picture
 		src={thumbnail}
 		formats={['avif', 'webp']}
+		width={960}
+		height={540}
 		widths={[480, 720, 960]}
 		sizes="(min-width: 1024px) 512px, (min-width: 768px) 480px, 100vw"
 		fit="cover"
+		position="attention"
+		quality={55}
 		loading="lazy"
+		fetchpriority="low"
 		alt=""
 		class="absolute inset-0 h-full w-full object-cover object-[50%_22%]"
 	/>

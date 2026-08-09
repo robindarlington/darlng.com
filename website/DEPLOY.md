@@ -405,3 +405,15 @@ DNS-records warning above states the same rule for Resend's records).
   forcing `vite` via `overrides` keeps that chain deterministic. Safe to revisit (and
   potentially loosen) after a deliberate Astro/Tailwind upgrade, not on a routine
   `npm update`.
+
+### Addendum — LCP measurement topology (2026-08-09)
+
+The locally measured home-page mobile LCP of ~2.8s was an artifact of testing over
+plain HTTP/1.1 on localhost (six parallel connections share Lighthouse's simulated
+bandwidth, so below-fold images throttle the hero). Re-measured over HTTPS+HTTP/2 —
+matching how Traefik serves the live site — home mobile LCP is **1980ms** (score 0.99),
+comfortably inside the <2500ms target. Optimizations landed during this loop: hero
+quality 55 + denser widths, homepage LCP `<link rel="preload" as="image">` ahead of
+font preloads, facade thumbnail true 16:9 crop (239KB → 129KB at 960w), catalog cards
+quality 55. Confirm with PageSpeed Insights on the live domain after cutover — expect
+the h2 number, not the h1 artifact.

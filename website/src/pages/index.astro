@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Picture } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import { ChevronRight } from '@lucide/astro';
 import BrandIcon from '../components/BrandIcon.astro';
 import YouTubeFacade from '../components/YouTubeFacade.astro';
@@ -30,6 +30,17 @@ const ctaLinks = heroPlatforms.map((platform) => {
 	return link;
 });
 const { youtubeEmbed } = latestRelease;
+
+// LCP preload: MUST use identical params to the hero <Picture>'s avif variant so
+// the preloaded candidates are byte-identical URLs (mismatch = double download).
+const heroAvif = await getImage({
+	src: latestRelease.cover,
+	format: 'avif',
+	widths: [480, 640, 750, 960, 1254],
+	quality: 55,
+	fit: 'cover',
+});
+const heroPreload = { srcset: heroAvif.srcSet.attribute, sizes: '100vw' };
 ---
 
 <Layout
@@ -37,14 +48,16 @@ const { youtubeEmbed } = latestRelease;
 	description="DARLNG is an independent Afro / RnB / Pop artist. New music when it is ready, on nobody's schedule but his own."
 	image="/og/home.png"
 	type="website"
+	preloadImage={heroPreload}
 >
 	<section id="hero" class="relative -mx-4 md:-mx-6 xl:-mx-8 min-h-svh lg:min-h-[85vh] flex overflow-hidden">
 		<Picture
 			src={latestRelease.cover}
 			formats={['avif', 'webp']}
-			widths={[640, 960, 1254]}
+			widths={[480, 640, 750, 960, 1254]}
 			sizes="100vw"
 			fit="cover"
+			quality={55}
 			priority
 			alt={`DARLNG — ${latestRelease.title} cover art`}
 			class="absolute inset-0 h-full w-full object-cover object-[35%_28%]"

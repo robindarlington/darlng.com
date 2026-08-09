@@ -13,6 +13,9 @@ interface Props {
 	canonical?: string;
 	musician?: string;
 	noindex?: boolean;
+	/** LCP image preload — must mirror the page's hero <Picture> avif output exactly
+	    (same src/widths/quality/fit via getImage) or the browser double-downloads. */
+	preloadImage?: { srcset: string; sizes: string };
 }
 
 const {
@@ -23,6 +26,7 @@ const {
 	canonical,
 	musician,
 	noindex = false,
+	preloadImage,
 } = Astro.props;
 
 // Absolute URLs are built from `Astro.site` (never string concatenation — RESEARCH
@@ -66,6 +70,20 @@ const pageUrl = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
 		<link rel="icon" href="/favicon.ico" sizes="32x32" />
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		{
+			/* LCP image preload MUST precede the font preloads: under constrained
+			   bandwidth the hero wins the queue instead of waiting behind ~76KB of
+			   fonts (Phase 5 Lighthouse loop). */
+			preloadImage && (
+				<link
+					rel="preload"
+					as="image"
+					imagesrcset={preloadImage.srcset}
+					imagesizes={preloadImage.sizes}
+					fetchpriority="high"
+				/>
+			)
+		}
 		<link rel="preload" href={unboundedWoff2} as="font" type="font/woff2" crossorigin fetchpriority="low" />
 		<link rel="preload" href={manropeWoff2} as="font" type="font/woff2" crossorigin fetchpriority="low" />
 	</head>

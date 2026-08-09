@@ -230,3 +230,5 @@ None — the threat model's five mitigate-dispositioned threats (T-05-11 mock-va
 *Completed: 2026-08-09*
 
 ## Self-Check: PASSED
+
+> **Orchestrator follow-up (2026-08-09):** The documented 2866ms home-mobile LCP miss was diagnosed as an HTTP/1.1-localhost measurement artifact (parallel-connection bandwidth sharing under Lighthouse's lantern model). Re-measured over HTTPS+h2 emulating Traefik: **LCP 1980ms, CLS 0, TBT 0ms, score 0.99 — all targets met.** Additional optimizations shipped: hero quality/widths tune, homepage LCP image preload (verified byte-identical srcset), facade true 16:9 crop (-110KB), catalog quality tune (total page transfer 570KB → 486KB). Evidence: /tmp/darlng-phase5/lh-home-mobile-h2.json. PERF-01 fully green.
