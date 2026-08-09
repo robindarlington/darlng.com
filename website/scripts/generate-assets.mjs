@@ -163,7 +163,35 @@ const RELEASE_CARDS = [
 // value could ever escape the output directory.
 const SLUG_PATTERN = /^[a-z0-9-]+$/;
 
+/**
+ * Fail-loud drift guard between RELEASE_CARDS (above, a hand-transcribed copy) and
+ * the real slug list in src/data/releases.ts. Reads releases.ts as plain text and
+ * extracts `slug: '...'` occurrences via regex rather than importing the .ts module
+ * (this script stays a plain ESM Node script with zero build tooling of its own).
+ * Without this, a release added to releases.ts with no matching RELEASE_CARDS entry
+ * would build clean and silently ship a 404'ing /og/<slug>.png in production.
+ */
+async function assertReleaseCardsMatchSource() {
+	const releasesSourcePath = path.resolve(REPO_ROOT, 'src/data/releases.ts');
+	const releasesSource = await readFile(releasesSourcePath, 'utf8');
+	const sourceSlugs = [...releasesSource.matchAll(/slug:\s*'([^']+)'/g)].map((match) => match[1]);
+	const cardSlugs = RELEASE_CARDS.map((card) => card.slug);
+
+	const missingFromCards = sourceSlugs.filter((slug) => !cardSlugs.includes(slug));
+	const missingFromSource = cardSlugs.filter((slug) => !sourceSlugs.includes(slug));
+
+	if (missingFromCards.length > 0 || missingFromSource.length > 0) {
+		throw new Error(
+			'generate-assets: RELEASE_CARDS in this file has drifted from src/data/releases.ts. ' +
+				`In releases.ts but missing from RELEASE_CARDS: ${missingFromCards.join(', ') || '(none)'}. ` +
+				`In RELEASE_CARDS but missing from releases.ts: ${missingFromSource.join(', ') || '(none)'}. ` +
+				'Update RELEASE_CARDS in scripts/generate-assets.mjs to match.'
+		);
+	}
+}
+
 async function main() {
+	await assertReleaseCardsMatchSource();
 	await mkdir(OUTPUT_DIR, { recursive: true });
 
 	// The home card stays independently sourced from the Eseriani cover (D-03) so its URL
