@@ -79,3 +79,14 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 *Last updated: 2026-06-26 after initialization*
+
+
+## Current State (v1.0 — 2026-08-09)
+
+v1.0 Release Hub is code-complete and locally verified: cinematic Eseriani hero with click-to-load nocookie embed, catalog + listen-everywhere pages for all 4 releases, Listmonk-ready newsletter island, launch-grade OG/sitemap/favicon/perf (h2 Lighthouse green, axe clean). Archived: `.planning/milestones/v1.0-ROADMAP.md`.
+
+**Awaiting user:** final visual sign-off + live cutover per `website/DEPLOY.md` (Coolify app, Listmonk+Postgres, Resend SMTP, LWS DNS, env vars, post-cutover checks).
+
+## Next Milestone Goals (candidates)
+
+v2 backlog: SCHEMA-01 (JSON-LD), PAGES-01 (per-release sub-pages), ANALYTICS-01 (self-hosted analytics), MOTION-01 (scroll-reveal animations). Define via `/gsd-new-milestone`.
