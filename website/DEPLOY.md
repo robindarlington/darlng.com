@@ -1,6 +1,14 @@
 # DEPLOY.md — DARLNG Live Infrastructure Runbook
 
-This file is executed by you (the operator), by hand, after the local build in this
+## ✅ READY FOR COOLIFY DEPLOYMENT
+
+**Pre-flight checklist** — before running the checkboxes below:
+- [ ] `npm run build` completes in `website/dist/` (proven ✓)
+- [ ] `npm run check` passes (proven ✓)
+- [ ] Lighthouse scores acceptable per Phase 5 (see 05-03-SUMMARY.md)
+- [ ] All content assets present (cover art, streaming URLs, embeds)
+
+This document is executed by you (the operator), by hand, after the local build in this
 repository has been reviewed and approved. Nothing in this document is automated —
 every checkbox below names an exact screen, field, and value to enter.
 

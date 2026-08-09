@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # DARLNG site container
+  darlng:
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - PUBLIC_LISTMONK_URL=${PUBLIC_LISTMONK_URL:-}
+      - PUBLIC_LISTMONK_LIST_UUID=${PUBLIC_LISTMONK_LIST_UUID:-}
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.darlng.rule=Host(`darlng.com`) || Host(`www.darlng.com`)"
+      - "traefik.http.routers.darlng.entrypoints=websecure"
+      - "traefik.http.routers.darlng.tls=true"
+      - "traefik.http.routers.darlng.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.darlng.redirect.entrypoints.web=websecure"
+      - "traefik.http.routers.darlng.redirect.scheme=https"
+      - "traefik.http.services.darlng.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.darlng-redirect.redirectscheme.scheme=https"
+    networks:
+      - darlng-net
+
+  # Listmonk mail container
+  listmonk:
+    image: ghcr.io/knadh/listmonk:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_USER=listmonk
+      - DB_PASSWORD=${DB_PASSWORD:-}
+      - DB_NAME=listmonk
+      - SECRET_KEY=${SECRET_KEY:-}
+      - SMTP_HOST=smtp.resend.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=resend
+      - SMTP_PASSWORD=${RESEND_API_KEY:-}
+      - SMTP_TYPE=STARTTLS
+      - LISTMONK_ADMIN_EMAIL=${ADMIN_EMAIL:-listmonk@darlng.com}
+      - LISTMONK_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - LISTMONK_DOMAIN=mail.darlng.com
+      - ADMIN_USER=admin
+      - LISTMONK_SESSION_COOKIE_NAME=listmonk_session
+    volumes:
+      - listmonk_data:/var/listmonk/data
+      - ./website/static/listmonk/avatars:/var/listmonk/avatars
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - darlng-net
+
+  # Postgres database
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=listmonk
+      - POSTGRES_USER=listmonk
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - darlng-net
+
+volumes:
+  listmonk_data:
+  postgres_data:
+
+networks:
+  darlng-net:
+    name: darlng-net
+    driver: bridge
