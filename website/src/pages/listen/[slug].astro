@@ -48,6 +48,7 @@ if (!spotifyArtist) {
 				src={release.cover}
 				formats={['avif', 'webp']}
 				widths={[320, 384, 640, 768]}
+				sizes="(min-width: 640px) 384px, 320px"
 				fit="cover"
 				loading="eager"
 				alt={`${release.title} cover art`}
