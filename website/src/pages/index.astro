@@ -9,6 +9,7 @@ import NewsletterForm from '../components/NewsletterForm';
 import { platformIcons } from '../data/platform-icons';
 import { latestRelease, releases } from '../data/releases';
 import type { Platform } from '../data/releases';
+import { HERO_IMAGE_PARAMS } from '../data/hero-image';
 
 const backCatalog = releases.filter((release) => !release.isLatest);
 
@@ -31,14 +32,12 @@ const ctaLinks = heroPlatforms.map((platform) => {
 });
 const { youtubeEmbed } = latestRelease;
 
-// LCP preload: MUST use identical params to the hero <Picture>'s avif variant so
-// the preloaded candidates are byte-identical URLs (mismatch = double download).
+// LCP preload: shares HERO_IMAGE_PARAMS with the hero <Picture> below so the
+// preloaded candidates are always byte-identical URLs (no hand-kept parity).
 const heroAvif = await getImage({
 	src: latestRelease.cover,
 	format: 'avif',
-	widths: [480, 640, 750, 960, 1254],
-	quality: 55,
-	fit: 'cover',
+	...HERO_IMAGE_PARAMS,
 });
 const heroPreload = { srcset: heroAvif.srcSet.attribute, sizes: '100vw' };
 ---
@@ -54,13 +53,11 @@ const heroPreload = { srcset: heroAvif.srcSet.attribute, sizes: '100vw' };
 		<Picture
 			src={latestRelease.cover}
 			formats={['avif', 'webp']}
-			widths={[480, 640, 750, 960, 1254]}
 			sizes="100vw"
-			fit="cover"
-			quality={55}
 			priority
 			alt={`DARLNG — ${latestRelease.title} cover art`}
 			class="absolute inset-0 h-full w-full object-cover object-[35%_28%]"
+			{...HERO_IMAGE_PARAMS}
 		/>
 		<div class="hero-scrim absolute inset-0" aria-hidden="true"></div>
 
