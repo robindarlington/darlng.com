@@ -133,7 +133,13 @@ Plans:
   3. Lighthouse run on the live `https://darlng.com` homepage shows LCP <2.5s, CLS <0.1, and TBT <200ms in the lab data
   4. Axe automated scan on the live site shows zero color contrast violations and zero critical accessibility failures
 
-**Plans**: TBD
+**Plans**: 0/3 plans executed
+
+Plans:
+
+- [ ] 05-01-PLAN.md — Tracer: build-time Sharp OG card generator wired as a `prebuild` hook, `Layout.astro` extended with absolute-URL Open Graph + Twitter Card meta, and all six pages carrying their own card (`music.album` + `music:musician` on listen pages, `noindex` on 404)
+- [ ] 05-02-PLAN.md — Hand-authored DARLNG `D` favicon rasterized into `.ico` (hand-rolled container, no new dep) and a 180x180 apple-touch icon, plus `robots.txt` pointing at the sitemap index and an nginx `/sitemap.xml` route
+- [ ] 05-03-PLAN.md — Lighthouse against the built `dist/` served by the real `nginx.conf` (LCP/CLS/TBT green across four runs), impact-filtered axe scan on three pages, and the DEPLOY.md live-domain deferred checks
 
 ## Progress
 
@@ -146,4 +152,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Brand, Data & Base Layout | 2/2 | Complete    | 2026-08-07 |
 | 3. Core Fan Experience | 3/3 | Complete    | 2026-08-08 |
 | 4. Newsletter Fan Capture | 3/3 | Complete    | 2026-08-08 |
-| 5. SEO & Launch Polish | 0/? | Not started | - |
+| 5. SEO & Launch Polish | 0/3 | Not started | - |
