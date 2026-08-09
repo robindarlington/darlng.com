@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 05
 current_phase_name: SEO & Launch Polish
 status: planning
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-08-09T09:53:45.952Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-08-09T09:59:02.470Z"
 last_activity: 2026-08-09
 last_activity_desc: Completed 05-01-PLAN.md
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 13
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # Project State
@@ -28,11 +28,11 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 ## Current Position
 
 Phase: 05 — SEO & Launch Polish
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-08-09 — Completed 05-01-PLAN.md
 
-Progress: [█████████░] 85%
+Progress: [█████████░] 92%
 
 ## Performance Metrics
 
@@ -72,6 +72,7 @@ Progress: [█████████░] 85%
 | Phase 04 P02 | 15min | 2 tasks | 1 files |
 | Phase 04 P03 | 15min | 2 tasks | 1 files |
 | Phase 05 P01 | 35min | 3 tasks | 7 files |
+| Phase 05 P02 | 20min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,9 @@ Recent decisions affecting current work:
 - [Phase ?]: Home OG card sourced independently from Eseriani artwork (its own generator entry) so the home card URL never changes when a future release becomes latest
 - [Phase ?]: generate-assets.mjs slug validated against a strict lowercase-alphanumeric-and-hyphen pattern before output path composition, closing off any path-escape vector
 - [Phase ?]: music:musician sourced from releases.ts socials array's spotify entry rather than a second copy of the literal artist URL
+- [Phase ?]: Favicon.ico hand-rolled via a 22-byte ICONDIR+ICONDIRENTRY header wrapping a raw 32x32 PNG buffer — verified with file(1) — instead of adding a sharp-ico dependency
+- [Phase ?]: robots.txt Sitemap directive names sitemap-index.xml (not the numbered shard) so a future second shard stays discoverable
+- [Phase ?]: nginx /sitemap.xml location declares no add_header of its own so it inherits all five server-level security/cache headers intact
 
 ### Pending Todos
 
@@ -128,6 +132,6 @@ Content that must be gathered before Phase 2 can complete:
 
 ## Session Continuity
 
-Last session: 2026-08-09T09:53:45.943Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-08-09T09:59:02.460Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
