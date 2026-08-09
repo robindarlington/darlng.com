@@ -12,6 +12,9 @@ interface Props {
 	type?: 'website' | 'music.album';
 	canonical?: string;
 	musician?: string;
+	/** `music.album` OG sub-property — release year, e.g. "2026". Only meaningful
+	    when `type="music.album"`. */
+	releaseDate?: string;
 	noindex?: boolean;
 	/** LCP image preload — must mirror the page's hero <Picture> avif output exactly
 	    (same src/widths/quality/fit via getImage) or the browser double-downloads. */
@@ -25,6 +28,7 @@ const {
 	type = 'website',
 	canonical,
 	musician,
+	releaseDate,
 	noindex = false,
 	preloadImage,
 } = Astro.props;
@@ -63,6 +67,7 @@ const pageUrl = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
 		<meta property="og:type" content={type} />
 		<meta property="og:site_name" content="DARLNG" />
 		{musician && <meta property="music:musician" content={musician} />}
+		{releaseDate && <meta property="music:release_date" content={releaseDate} />}
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
