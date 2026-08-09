@@ -3,7 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import { Picture } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import PlatformButton from '../../components/PlatformButton.astro';
-import { releases } from '../../data/releases';
+import { releases, socials } from '../../data/releases';
 import type { Release } from '../../data/releases';
 
 export const getStaticPaths = (() => {
@@ -18,11 +18,25 @@ interface Props {
 }
 
 const { release } = Astro.props;
+
+// music:musician points at the DARLNG Spotify artist profile — reused from the socials
+// list (never a second copy of the literal) so `og:type="music.album"` pages declare the
+// correct artist per ogp.me. Fail loudly if that entry is ever removed, matching the
+// fail-loud posture releases.ts already uses for its other invariants.
+const spotifyArtist = socials.find((social) => social.platform === 'spotify');
+if (!spotifyArtist) {
+	throw new Error(
+		'listen/[slug].astro: socials in releases.ts is missing a "spotify" entry required for the music:musician OG property.'
+	);
+}
 ---
 
 <Layout
 	title={`Listen to ${release.title} — DARLNG`}
 	description={`Listen to ${release.title} by ${release.artistLine} on every platform.`}
+	image={`/og/${release.slug}.png`}
+	type="music.album"
+	musician={spotifyArtist.url}
 >
 	<div class="py-12 md:py-16">
 		<a href="/" class="text-base font-semibold text-text-muted transition hover:text-accent">

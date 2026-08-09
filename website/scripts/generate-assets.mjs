@@ -69,15 +69,44 @@ async function generateCard(sourcePath, outputPath) {
 	);
 }
 
+// Slug + source filename for each release's own card. Transcribed as literals (mirrors
+// src/data/releases.ts and must be kept in step with it) rather than importing the .ts
+// data module from Node — this stays a plain ESM script with zero build tooling of its
+// own. Order is a stable literal list: no directory listing, no Date, no other run-order
+// or timestamp entropy, so two consecutive builds emit byte-identical PNGs.
+const RELEASE_CARDS = [
+	{ slug: 'eseriani', source: 'eseriani.jpg' },
+	{ slug: 'randevu', source: 'randevu.jpg' },
+	{ slug: 'brave', source: 'brave.jpg' },
+	{ slug: 'open-wide', source: 'open-wide.jpg' },
+];
+
+// The slug is interpolated into a filesystem path under public/og/ — validate it against
+// a strict lowercase-alphanumeric-and-hyphen pattern before composing that path so no
+// value could ever escape the output directory.
+const SLUG_PATTERN = /^[a-z0-9-]+$/;
+
 async function main() {
 	await mkdir(OUTPUT_DIR, { recursive: true });
 
-	// Task 1 scope: the homepage card only, sourced from the Eseriani cover (D-03: the
-	// home card is Eseriani-based). Task 2 extends this with one entry per release.
+	// The home card stays independently sourced from the Eseriani cover (D-03) so its URL
+	// never has to change when a future release becomes the latest one.
 	await generateCard(
 		path.resolve(REPO_ROOT, 'src/assets/releases/eseriani.jpg'),
 		path.resolve(OUTPUT_DIR, 'home.png')
 	);
+
+	for (const { slug, source } of RELEASE_CARDS) {
+		if (!SLUG_PATTERN.test(slug)) {
+			throw new Error(
+				`generate-assets: slug "${slug}" does not match ${SLUG_PATTERN} — refusing to compose an output path from it.`
+			);
+		}
+		await generateCard(
+			path.resolve(REPO_ROOT, 'src/assets/releases', source),
+			path.resolve(OUTPUT_DIR, `${slug}.png`)
+		);
+	}
 }
 
 main().catch((err) => {
