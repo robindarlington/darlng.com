@@ -8,7 +8,7 @@
 // The canvas background colour (#0A0908) is transcribed from `--color-bg` in
 // `src/styles/global.css` — if that token ever changes, update CANVAS_BACKGROUND here too.
 
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import sharp from 'sharp';
@@ -16,11 +16,16 @@ import sharp from 'sharp';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.resolve(REPO_ROOT, 'public/og');
+const PUBLIC_DIR = path.resolve(REPO_ROOT, 'public');
 
 const CANVAS_WIDTH = 1200;
 const CANVAS_HEIGHT = 630;
 const ART_SIZE = 630;
 const CANVAS_BACKGROUND = '#0A0908';
+
+// Favicon rasterization density — verified during planning to produce a crisp `D`
+// glyph at both 32x32 and 256x256 from the hand-authored 64x64 source SVG.
+const FAVICON_DENSITY = 384;
 
 /**
  * Composites a single source cover image onto a 1200x630 brand-background canvas and
@@ -69,6 +74,78 @@ async function generateCard(sourcePath, outputPath) {
 	);
 }
 
+/**
+ * Wraps a 32x32 PNG buffer in a minimal single-image .ico container. An icon container
+ * has accepted a raw PNG stream as a valid entry since Windows Vista, so no bitmap
+ * re-encode is needed here. Layout (confirmed with `file(1)` during planning — that
+ * command is this routine's acceptance gate, not the byte offsets on paper):
+ *   ICONDIR (6 bytes):  reserved=0 (u16le), type=1 (u16le), count=1 (u16le)
+ *   ICONDIRENTRY (16 bytes): width=32 (u8), height=32 (u8), colorCount=0 (u8),
+ *     reserved=0 (u8), planes=1 (u16le), bitCount=32 (u16le), bytesInRes (u32le),
+ *     imageOffset=22 (u32le)
+ *   then the PNG bytes themselves, concatenated.
+ *
+ * @param {Buffer} pngBuffer A 32x32 PNG-encoded image buffer.
+ * @returns {Buffer} A complete .ico file buffer.
+ */
+function wrapPngAsIco(pngBuffer) {
+	const iconDir = Buffer.alloc(6);
+	iconDir.writeUInt16LE(0, 0); // reserved
+	iconDir.writeUInt16LE(1, 2); // type: 1 = icon
+	iconDir.writeUInt16LE(1, 4); // image count
+
+	const iconDirEntry = Buffer.alloc(16);
+	iconDirEntry.writeUInt8(32, 0); // width
+	iconDirEntry.writeUInt8(32, 1); // height
+	iconDirEntry.writeUInt8(0, 2); // color palette count
+	iconDirEntry.writeUInt8(0, 3); // reserved
+	iconDirEntry.writeUInt16LE(1, 4); // color planes
+	iconDirEntry.writeUInt16LE(32, 6); // bits per pixel
+	iconDirEntry.writeUInt32LE(pngBuffer.length, 8); // image data size
+	iconDirEntry.writeUInt32LE(22, 12); // offset of image data (6 + 16)
+
+	return Buffer.concat([iconDir, iconDirEntry, pngBuffer]);
+}
+
+/**
+ * Rasterizes `public/favicon.svg` into every icon format browsers and platforms ask
+ * for: a 180x180 opaque apple-touch-icon, and a 32x32 favicon.ico hand-wrapped in a
+ * minimal container (no new dependency — see wrapPngAsIco above).
+ */
+async function generateFavicons() {
+	const svgPath = path.resolve(PUBLIC_DIR, 'favicon.svg');
+	const svgBuffer = await readFile(svgPath);
+
+	// Apple touch icon: iOS applies its own corner mask to home-screen icons, so the
+	// tile's rounded corners must be flattened to the brand background rather than left
+	// transparent — otherwise the icon renders visibly double-rounded with a translucent
+	// fringe.
+	const appleTouchIconPath = path.resolve(PUBLIC_DIR, 'apple-touch-icon.png');
+	await sharp(svgBuffer, { density: FAVICON_DENSITY })
+		.resize(180, 180)
+		.flatten({ background: CANVAS_BACKGROUND })
+		.png()
+		.toFile(appleTouchIconPath);
+	const appleTouchMetadata = await sharp(appleTouchIconPath).metadata();
+	console.log(
+		`generate-assets: wrote ${path.relative(REPO_ROOT, appleTouchIconPath)} (${appleTouchMetadata.width}x${appleTouchMetadata.height})`
+	);
+
+	// 32x32 raster for the .ico container — deliberately NOT flattened, so the
+	// transparent rounded corners sit well on both light and dark browser tab bars.
+	const favicon32Buffer = await sharp(svgBuffer, { density: FAVICON_DENSITY })
+		.resize(32, 32)
+		.png()
+		.toBuffer();
+	const icoBuffer = wrapPngAsIco(favicon32Buffer);
+	const faviconIcoPath = path.resolve(PUBLIC_DIR, 'favicon.ico');
+	await writeFile(faviconIcoPath, icoBuffer);
+	const favicon32Metadata = await sharp(favicon32Buffer).metadata();
+	console.log(
+		`generate-assets: wrote ${path.relative(REPO_ROOT, faviconIcoPath)} (${favicon32Metadata.width}x${favicon32Metadata.height})`
+	);
+}
+
 // Slug + source filename for each release's own card. Transcribed as literals (mirrors
 // src/data/releases.ts and must be kept in step with it) rather than importing the .ts
 // data module from Node — this stays a plain ESM script with zero build tooling of its
@@ -107,6 +184,8 @@ async function main() {
 			path.resolve(OUTPUT_DIR, `${slug}.png`)
 		);
 	}
+
+	await generateFavicons();
 }
 
 main().catch((err) => {
