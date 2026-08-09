@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 05
 current_phase_name: SEO & Launch Polish
 status: planning
-stopped_at: Completed 04-03-PLAN.md
-last_updated: "2026-08-08T21:48:02.520Z"
-last_activity: 2026-08-08
-last_activity_desc: Phase 4 complete, transitioned to Phase 05
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-08-09T09:53:45.952Z"
+last_activity: 2026-08-09
+last_activity_desc: Completed 05-01-PLAN.md
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 10
-  completed_plans: 10
+  total_plans: 13
+  completed_plans: 11
 ---
 
 # Project State
@@ -28,11 +28,11 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 ## Current Position
 
 Phase: 05 — SEO & Launch Polish
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-08-08 — Phase 4 complete, transitioned to Phase 05
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-08-09 — Completed 05-01-PLAN.md
 
-Progress: [██████████] 100%
+Progress: [█████████░] 85%
 
 ## Performance Metrics
 
@@ -71,6 +71,7 @@ Progress: [██████████] 100%
 | Phase 04-newsletter-fan-capture P01 | 55 min | 2 tasks | 5 files |
 | Phase 04 P02 | 15min | 2 tasks | 1 files |
 | Phase 04 P03 | 15min | 2 tasks | 1 files |
+| Phase 05 P01 | 35min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -97,6 +98,9 @@ Recent decisions affecting current work:
 - [Phase ?]: DEPLOY.md documents ALTCHA does not protect /api/public/subscription; honeypot + double opt-in + proxy rate limiting are the real, documented mitigations
 - [Phase ?]: Fixed real CLS bug: status region min-h-12 (48px) was too small for the actual 3-line success message at 375px; bumped to min-h-18 (72px), re-verified byte-identical offsetTop. — Caught by the browser evidence sweep's CLS assertion; the UI-SPEC's own reserved-height calculation assumed only 2 lines total for the success message, but the second sentence itself wraps to 2 lines at mobile width.
 - [Phase ?]: Documented (not silently passed) that the env-unset production build still ships an unreferenced NewsletterForm*.js chunk to disk — proven via 3 independent tests to be an inherent Astro static-compiler limitation, not fixable via JS conditional restructuring. Verified the substantive safety property instead: zero HTML anywhere references the chunk, so no browser ever loads it. — T-04-11's actual threat (a fan submitting into a broken form) requires browser-observable exposure, which does not exist here. A custom build plugin to physically strip the chunk from disk would be new build infrastructure disproportionate to a cosmetic disk-hygiene gap, and is an architectural decision for a human to weigh, not a silent mid-plan addition.
+- [Phase ?]: Home OG card sourced independently from Eseriani artwork (its own generator entry) so the home card URL never changes when a future release becomes latest
+- [Phase ?]: generate-assets.mjs slug validated against a strict lowercase-alphanumeric-and-hyphen pattern before output path composition, closing off any path-escape vector
+- [Phase ?]: music:musician sourced from releases.ts socials array's spotify entry rather than a second copy of the literal artist URL
 
 ### Pending Todos
 
@@ -124,6 +128,6 @@ Content that must be gathered before Phase 2 can complete:
 
 ## Session Continuity
 
-Last session: 2026-08-08T21:15:32.724Z
-Stopped at: Completed 04-03-PLAN.md
+Last session: 2026-08-09T09:53:45.943Z
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None
