@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 5
-status: completed
-stopped_at: Completed 05-03-PLAN.md
+status: milestone_complete
+stopped_at: v1.0 complete — awaiting user visual sign-off + Coolify cutover (website/DEPLOY.md)
 last_updated: "2026-08-09T10:53:20.360Z"
 last_activity: 2026-08-09
 last_activity_desc: Phase 5 complete
