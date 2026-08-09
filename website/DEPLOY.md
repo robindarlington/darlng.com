@@ -232,6 +232,57 @@ there is nothing here to test yet.
         check above and this bot-POST check from Listmonk's admin, so the fan list
         starts clean.
 
+### SEO, cards, and performance — the checks deferred to this deploy step
+
+Phase 5 (05-03) measured Lighthouse and axe against the built `dist/` served by this
+repo's own `nginx.conf` in a local `nginx:stable-alpine` container — the real
+serving layer, but not the real domain, TLS, or CDN path. Everything below is
+genuinely new risk that only exists once the live cutover (Section 1) is done.
+
+- [ ] **Live PageSpeed Insights.** Run [PageSpeed
+      Insights](https://pagespeed.web.dev/) against `https://darlng.com` and
+      `https://darlng.com/listen/eseriani` and compare against the lab numbers
+      measured locally (server: `docker` — the real `nginx:stable-alpine` container
+      bind-mounting this repo's `dist/` and `nginx.conf`, not the `astro preview`
+      fallback):
+
+      | URL | Form factor | LCP (ms) | CLS | TBT (ms) | Perf score |
+      |---|---|---|---|---|---|
+      | `/` | mobile | 2866 | 0.000 | 0 | 0.95 |
+      | `/` | desktop | 825 | 0.000 | 0 | 0.99 |
+      | `/listen/eseriani/` | mobile | 1670 | 0.000 | 0 | 1.00 |
+      | `/listen/eseriani/` | desktop | 376 | 0.000 | 0 | 1.00 |
+
+      Three of the four runs pass every Core Web Vitals target (LCP < 2500ms, CLS <
+      0.1, TBT < 200ms). `/` on mobile measured LCP 2866ms — 366ms over the 2500ms
+      target — after three genuine in-scope fixes (nginx gzip for text responses,
+      demoting the two font preloads below the hero image's priority, confirming
+      avif-before-webp source order was already correct). See
+      `05-03-SUMMARY.md` for the full root-cause writeup. Real-world PageSpeed
+      numbers over the live CDN/TLS path are commonly better than Lighthouse's
+      conservative default mobile throttling profile (simulated slow 4G: 1.6Mbps,
+      150ms RTT, 4x CPU slowdown) — confirm whether the live measurement still misses
+      before treating this as an open issue.
+- [ ] **opengraph.xyz.** Check [opengraph.xyz](https://www.opengraph.xyz/) for
+      `https://darlng.com` and `https://darlng.com/listen/eseriani` — confirm the
+      1200x630 artwork, title, and description resolve with no image-not-found and
+      no relative-URL failure. This is the specific failure mode the absolute
+      `og:image`/`og:url`/`twitter:image` URLs built from `Astro.site` (05-01) exist
+      to prevent.
+- [ ] **Search Console sitemap submission.** In Google Search Console, submit
+      `https://darlng.com/sitemap-index.xml` — the index, not a numbered shard — and
+      confirm Search Console reports the five expected URLs discovered (`/` plus the
+      four `/listen/*` pages).
+- [ ] **robots.txt and /sitemap.xml over HTTPS.** Confirm
+      `https://darlng.com/robots.txt` returns 200 with the byte-exact allow-all body
+      (05-02), and `https://darlng.com/sitemap.xml` returns 200 with the sitemap
+      index document — this exercises the `location = /sitemap.xml` nginx route added
+      in 05-02 and re-verified against the running container in 05-03.
+- [ ] **Favicon rendering.** In a real browser tab, confirm the favicon renders as a
+      legible turquoise `D` on the dark background. On an iOS device, add the site to
+      the home screen and confirm the apple-touch-icon appears correctly (not the
+      default screenshot thumbnail).
+
 ## 5. Newsletter Wiring — Listmonk Public Subscription
 
 The homepage's newsletter island POSTs JSON `{ email, list_uuids }` straight from the
