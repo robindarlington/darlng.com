@@ -134,8 +134,14 @@ Content that must be gathered before Phase 2 can complete:
 | v2 | ANALYTICS-01: Self-hosted analytics | Deferred | Roadmap |
 | v2 | MOTION-01: Scroll-reveal animations | Deferred | Roadmap |
 
+## Quick Tasks Completed
+
+| Task | Date | Summary | Commit |
+|------|------|---------|--------|
+| 20260810-legal-privacy-pages | 2026-08-10 | Added `/privacy` and `/legal` pages plus footer "Privacy · Legal" nav (Listmonk/Hetzner + Resend named as processors) | cfaf2f1 |
+
 ## Session Continuity
 
-Last session: 2026-08-09T10:21:52.413Z
-Stopped at: Completed 05-03-PLAN.md
+Last session: 2026-08-10T21:19:05.000Z
+Stopped at: Completed quick task 20260810-legal-privacy-pages
 Resume file: None
